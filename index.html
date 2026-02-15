@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beyaz Leke Stüdyo | Akor & Arşiv</title>
     <style>
-        /* --- GENEL TASARIM --- */
+        /* --- GENEL TASARIM (KEMİK KOD) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: #0a0a0a; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
         
@@ -39,12 +39,24 @@
         .yt-link { display: inline-block; color: #fff; text-decoration: none; font-weight: bold; border: 1px solid #fff; padding: 10px 25px; transition: 0.3s; font-size: 11px; letter-spacing: 1px; }
         .yt-link:hover { background: #fff; color: #000; }
 
-        /* --- ARŞİV TASARIMI --- */
+        /* --- TEORİ PANELİ STİLLERİ --- */
+        #scaleSection { display: none; padding: 50px 5%; background: #fdfdfd; border-bottom: 1px solid #ddd; text-align: center; position: relative; color: #333; z-index: 100; }
+        .scale-note-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; }
+        .scale-btn { background: #fff; color: #333; border: 1px solid #ccc; padding: 10px 12px; cursor: pointer; font-weight: bold; border-radius: 4px; font-size: 11px; }
+        .scale-btn.active { background: #00b4d8; border-color: #00b4d8; color: #fff; }
+        .scale-type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; max-width: 1100px; margin: 20px auto; padding: 15px; background: #f8f8f8; border-radius: 8px; }
+        .type-btn { background: #fff; color: #555; border: 1px solid #ddd; padding: 10px 5px; font-size: 10px; cursor: pointer; border-radius: 4px; text-transform: uppercase; font-weight: bold; }
+        .type-btn.active { background: #333; color: #fff; }
+        .fretboard-scroll { overflow-x: auto; background: #fff; padding: 20px 10px; border-radius: 8px; border: 1px solid #eee; margin-top: 15px; }
+        .fretboard-svg { min-width: 1100px; height: 220px; }
+        .scale-info-box { margin-top: 20px; padding: 15px; background: #f9f9f9; border-top: 1px solid #eee; text-align: left; font-size: 13px; max-width: 1100px; margin-inline: auto; }
+        .info-label { font-weight: bold; color: #00b4d8; text-transform: uppercase; margin-right: 10px; }
+
+        /* --- ARŞİV TASARIMI (KEMİK KOD) --- */
         .archive-section { padding: 40px 5%; text-align: center; background: #0d0d0d; }
         .btn-group { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
         #toggleArchive, #btnRep { padding: 15px 40px; background: none; border: 1px solid #fff; color: white; cursor: pointer; letter-spacing: 2px; font-weight: bold; transition: 0.3s; }
         #toggleArchive:hover, #btnRep:hover { background: #fff; color: #000; }
-        
         #archiveContent, #repertoireSection { display: none; margin-top: 30px; }
         #songSearch { width: 100%; max-width: 500px; padding: 15px; background: #111; border: 1px solid #333; color: white; border-radius: 4px; outline: none; margin-bottom: 20px; }
 
@@ -56,14 +68,13 @@
         .card { padding: 30px; background: #111; border: 1px solid #222; text-align: center; border-radius: 4px; transition: 0.3s; cursor: pointer; position: relative; }
         .card:hover { border-color: #fff; transform: translateY(-5px); }
         
-        /* HIZLI İŞLEM BUTONLARI */
         .quick-add { position: absolute; top: 10px; right: 10px; background: #0056b3; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; font-weight: bold; cursor: pointer; display: none; z-index: 10; }
         .quick-remove { position: absolute; top: 10px; right: 10px; background: #ff4444; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; font-weight: bold; cursor: pointer; display: none; z-index: 10; }
         .card:hover .quick-add, .card:hover .quick-remove { display: block; }
 
         .rep-header-card { background: #111; border: 1px solid #333; padding: 20px; margin-bottom: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
 
-        /* --- GALERİ --- */
+        /* --- GALERİ (KEMİK KOD) --- */
         .gallery { padding: 60px 5%; }
         .grid { column-count: 3; column-gap: 20px; }
         .grid img { width: 100%; display: block; margin-bottom: 20px; border-radius: 5px; transition: 0.5s; cursor: pointer; filter: brightness(0.7); }
@@ -75,20 +86,13 @@
         .dark-modal { background: #0a0a0a !important; color: #fff !important; border: 1px solid #333; }
         .transpose-bar { background: #f0f0f0; padding: 20px; margin: 20px 0; border-radius: 4px; display: flex; flex-direction: column; gap: 15px; align-items: center; border: 1px solid #ddd; }
         .note-btn { padding: 8px 12px; background: #fff; border: 1px solid #ccc; color: #333; cursor: pointer; font-size: 12px; min-width: 40px; }
-        .note-btn:hover { background: #eee; }
         
         pre { font-family: 'Courier New', monospace; font-size: 1.1rem; line-height: 1.8; color: #333; white-space: pre-wrap; word-break: break-all; border-top: 1px solid #eee; padding-top: 20px; overflow-x: auto; }
         b { color: #0056b3; background: rgba(0, 86, 179, 0.05); padding: 1px 4px; border-radius: 3px; font-weight: bold; }
         .close-btn { float: right; font-size: 28px; cursor: pointer; color: #999; background: none; border: none; }
-        .add-rep-btn { background: #0056b3; color: #fff; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 15px; font-weight: bold; }
-
         footer { padding: 50px; text-align: center; font-size: 12px; color: #444; letter-spacing: 2px; }
 
-        @media (max-width: 768px) { 
-            .grid { column-count: 2; }
-            .nav-links a, .nav-links span.nav-item { margin-left: 10px; margin-right: 10px; }
-            .auth-buttons { border-left: none; padding-left: 0; margin-left: 0; margin-top: 10px; justify-content: center; width: 100%; }
-        }
+        @media (max-width: 768px) { .grid { column-count: 2; } .nav-links a, .nav-links span.nav-item { margin-left: 10px; margin-right: 10px; } }
     </style>
 </head>
 <body>
@@ -96,6 +100,7 @@
     <nav>
         <div class="logo">BEYAZ LEKE</div>
         <div class="nav-links">
+            <span class="nav-item" style="color:#00b4d8; font-weight:bold" onclick="window.toggleScales()">TEORİ / GAM</span>
             <a href="#akorlar" onclick="window.openArchive()">Akor Arşivi</a>
             <span class="nav-item" onclick="window.openRepertoire()">Repertuarlarım</span>
             <a href="#hizmetler">Hizmetler</a>
@@ -106,6 +111,31 @@
             </div>
         </div>
     </nav>
+
+    <section id="scaleSection">
+        <button class="close-btn" onclick="window.toggleScales()">✕</button>
+        <h2 style="letter-spacing: 3px; margin-bottom: 20px; font-weight: 900;">GUITAR SCALE EXPLORER</h2>
+        
+        <div class="scale-note-row" id="noteRow"></div>
+        <div class="scale-type-grid" id="typeGrid"></div>
+        
+        <div style="margin-bottom: 20px; display: flex; justify-content: center; gap: 10px;">
+            <button class="auth-btn" id="btnFull" onclick="window.switchScaleView('full')" style="background:#333; color:#fff">TAM KLAVYE</button>
+            <button class="auth-btn" id="btnShapes" onclick="window.switchScaleView('shapes')">SHAPES (POZİSYONLAR)</button>
+        </div>
+
+        <div id="fretboardDisplay" style="display:none">
+            <div id="fullView">
+                <div class="fretboard-scroll"><svg id="fretboardSvg" class="fretboard-svg"></svg></div>
+            </div>
+            <div id="shapesView" style="display:none; flex-direction: column; gap: 30px; align-items: center; margin-top: 20px;"></div>
+
+            <div class="scale-info-box">
+                <div><span class="info-label">Notes:</span> <span id="infoNotes"></span></div>
+                <div><span class="info-label">Intervals:</span> <span id="infoIntervals"></span></div>
+            </div>
+        </div>
+    </section>
 
     <section class="hero"><h1>BEYAZ LEKE STÜDYO</h1></section>
 
@@ -134,16 +164,13 @@
 
     <section id="akorlar" class="archive-section">
         <h2 style="letter-spacing: 3px; margin-bottom: 25px;">MÜZİK REPERTUVARI</h2>
-        
         <div id="selectionModeNotice" style="display:none; color:#0056b3; font-weight:bold; margin-bottom:15px; background:rgba(0,86,179,0.1); padding:10px; border-radius:5px;">
             Şu an <span id="activeRepNameDisplay"></span> listesine şarkı ekliyorsunuz. <button onclick="window.cancelSelectionMode()" style="background:none; border:1px solid #0056b3; color:#0056b3; cursor:pointer; font-size:10px; padding:2px 5px; margin-left:10px;">DURDUR</button>
         </div>
-
         <div class="btn-group">
             <button id="toggleArchive" onclick="window.openArchive()">ARŞİVİ GÖRÜNTÜLE</button>
             <button id="btnRep" onclick="window.openRepertoire()">REPERTUVARLARIM</button>
         </div>
-
         <div id="repertoireSection">
             <div style="display:flex; justify-content:center; gap:10px; margin-bottom:30px; flex-wrap:wrap;">
                 <button class="auth-btn" onclick="window.createNewRepertoire()">+ YENİ LİSTE OLUŞTUR</button>
@@ -151,7 +178,6 @@
             </div>
             <div id="repertoireLists" style="text-align:left; max-width:900px; margin: 0 auto;"></div>
         </div>
-
         <div id="archiveContent">
             <button class="auth-btn" style="margin-bottom:20px; border-color:#888" onclick="window.closeArchive()">✕ ARŞİVİ KAPAT</button><br>
             <input type="text" id="songSearch" placeholder="Şarkı veya sanatçı ara...">
@@ -213,235 +239,303 @@
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDBraE6Rq2iJ0M0efZ58A6Nvma8Ilf0_gQ",
-            authDomain: "beyazleke-3f72a.firebaseapp.com",
-            projectId: "beyazleke-3f72a",
-            storageBucket: "beyazleke-3f72a.firebasestorage.app",
-            messagingSenderId: "891882152934",
-            appId: "1:891882152934:web:696f5f5eafeca352d2ac27",
-            measurementId: "G-FZLD8N52ZC"
-        };
-
+        const firebaseConfig = { apiKey: "AIzaSyDBraE6Rq2iJ0M0efZ58A6Nvma8Ilf0_gQ", authDomain: "beyazleke-3f72a.firebaseapp.com", projectId: "beyazleke-3f72a", storageBucket: "beyazleke-3f72a.firebasestorage.app", messagingSenderId: "891882152934", appId: "1:891882152934:web:696f5f5eafeca352d2ac27", measurementId: "G-FZLD8N52ZC" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        window.allSongs = [];
-        window.originalLyrics = "";
-        window.currentLyrics = "";
-        window.currentUser = null;
-        window.currentSongId = null;
-        window.selectedRepForAdding = null; // Şarkı toplama modu
-        window.activeViewRep = null; // Listeyi görüntüleme modu
-
+        // --- ZENGİNLEŞTİRİLMİŞ TEORİ / GAM MANTIĞI ---
         const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        const artists = ["Duman", "Mor ve Ötesi", "manga", "Yüksek Sadakat", "Gripin", "Onur Can Özcan", "Ogün Sanlısoy", "Sertab Erener", "Gökhan Türkmen", "Kıraç", "Redd", "Şebnem Ferah","Teoman","Barış Manço","Pinhani","Umut Kaya","Çilekeş","Levent Yüksel","Kargo","Manuş Baba"];
+        const scalePatterns = {
+            'Major': { p: [0, 2, 4, 5, 7, 9, 11], i: '1-2-3-4-5-6-7' },
+            'Minor': { p: [0, 2, 3, 5, 7, 8, 10], i: '1-2-b3-4-5-b6-b7' },
+            'Harmonic Minor': { p: [0, 2, 3, 5, 7, 8, 11], i: '1-2-b3-4-5-b6-7' },
+            'Melodic Minor': { p: [0, 2, 3, 5, 7, 9, 11], i: '1-2-b3-4-5-6-7' },
+            'Major Pentatonic': { p: [0, 2, 4, 7, 9], i: '1-2-3-5-6' },
+            'Minor Pentatonic': { p: [0, 3, 5, 7, 10], i: '1-b3-4-5-b7' },
+            'Blues': { p: [0, 3, 5, 6, 7, 10], i: '1-b3-4-b5-5-b7' },
+            'Major Blues': { p: [0, 2, 3, 4, 7, 9], i: '1-2-b3-3-5-6' },
+            'Ionian': { p: [0, 2, 4, 5, 7, 9, 11], i: '1-2-3-4-5-6-7' },
+            'Dorian': { p: [0, 2, 3, 5, 7, 9, 10], i: '1-2-b3-4-5-6-b7' },
+            'Phrygian': { p: [0, 1, 3, 5, 7, 8, 10], i: '1-b2-b3-4-5-b6-b7' },
+            'Lydian': { p: [0, 2, 4, 6, 7, 9, 11], i: '1-2-3-#4-5-6-7' },
+            'Mixolydian': { p: [0, 2, 4, 5, 7, 9, 10], i: '1-2-3-4-5-6-b7' },
+            'Aeolian': { p: [0, 2, 3, 5, 7, 8, 10], i: '1-2-b3-4-5-b6-b7' },
+            'Locrian': { p: [0, 1, 3, 5, 6, 8, 10], i: '1-b2-b3-4-b5-b6-b7' },
+            'Whole Tone': { p: [0, 2, 4, 6, 8, 10], i: '1-2-3-#4-#5-b7' },
+            'Phrygian Dominant': { p: [0, 1, 4, 5, 7, 8, 10], i: '1-b2-3-4-5-b6-b7' },
+            'Lydian Dominant': { p: [0, 2, 4, 6, 7, 9, 10], i: '1-2-3-#4-5-6-b7' },
+            'Altered': { p: [0, 1, 3, 4, 6, 8, 10], i: '1-b2-b3-b4-b5-b6-b7' },
+            'Bebop Dominant': { p: [0, 2, 4, 5, 7, 9, 10, 11], i: '1-2-3-4-5-6-b7-7' },
+            'Hirajoshi': { p: [0, 2, 3, 7, 8], i: '1-2-b3-5-b6' }
+        };
+        const tuning = [4, 11, 7, 2, 9, 4];
+        let selNote = 'C', selType = 'Major', currentScaleView = 'full';
 
-        fetch('sarkilar.json').then(res => res.json()).then(data => { window.allSongs = data; });
+        window.toggleScales = () => {
+            const s = document.getElementById('scaleSection');
+            s.style.display = (s.style.display === 'block') ? 'none' : 'block';
+            if(s.style.display === 'block') {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                document.getElementById('noteRow').innerHTML = notes.map(n => `<button class="scale-btn" onclick="window.prepScale('${n}')">${n}</button>`).join('');
+                document.getElementById('typeGrid').innerHTML = Object.keys(scalePatterns).map(t => `<button class="type-btn" onclick="window.drawScale('${t}')">${t}</button>`).join('');
+                window.prepScale('C');
+            }
+        };
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const docSnap = await getDoc(doc(db, "users", user.uid));
-                if (docSnap.exists()) {
-                    window.currentUser = { uid: user.uid, ...docSnap.data() };
-                    document.getElementById('authNav').innerHTML = `<span class="user-info">SELAM, ${window.currentUser.username.toUpperCase()}</span> <button class="auth-btn" onclick="window.logout()">ÇIKIŞ YAP</button>`;
+        window.switchScaleView = (mode) => {
+            currentScaleView = mode;
+            document.getElementById('btnFull').style.background = mode === 'full' ? '#333' : '#111';
+            document.getElementById('btnShapes').style.background = mode === 'shapes' ? '#333' : '#111';
+            window.drawScale(selType);
+        };
+
+        window.prepScale = (n) => {
+            selNote = n; document.querySelectorAll('.scale-btn').forEach(b => b.classList.toggle('active', b.innerText === n));
+            window.drawScale(selType);
+        };
+
+        window.drawScale = (t) => {
+            selType = t; 
+            document.getElementById('fretboardDisplay').style.display = 'block';
+            document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('active', b.innerText === t));
+            
+            const rootIdx = notes.indexOf(selNote);
+            const sNotes = scalePatterns[t].p.map(p => notes[(rootIdx + p) % 12]);
+            document.getElementById('infoNotes').innerText = sNotes.join(' - ');
+            document.getElementById('infoIntervals').innerText = scalePatterns[t].i;
+
+            if (currentScaleView === 'full') {
+                document.getElementById('fullView').style.display = 'block';
+                document.getElementById('shapesView').style.display = 'none';
+                window.renderFretboard('fretboardSvg', sNotes, 0, 15);
+            } else {
+                document.getElementById('fullView').style.display = 'none';
+                const sView = document.getElementById('shapesView');
+                sView.style.display = 'flex'; sView.innerHTML = '';
+                const positions = [
+                    { name: "Pos 1", start: 0, end: 4 }, { name: "Pos 2", start: 3, end: 7 },
+                    { name: "Pos 3", start: 5, end: 9 }, { name: "Pos 4", start: 7, end: 12 },
+                    { name: "Pos 5", start: 10, end: 15 }
+                ];
+                positions.forEach((pos, idx) => {
+                    const container = document.createElement('div');
+                    container.innerHTML = `<h4 style="text-align:left; font-size:11px; margin-bottom:5px; color:#666">${pos.name} (${pos.start}-${pos.end}. Fret)</h4>`;
+                    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                    svg.id = `shapeSvg${idx}`; svg.classList.add('fretboard-svg');
+                    svg.style.minWidth = "450px"; svg.style.height = "180px";
+                    container.appendChild(svg); sView.appendChild(container);
+                    window.renderFretboard(svg.id, sNotes, pos.start, pos.end);
+                });
+            }
+        };
+
+        window.renderFretboard = (id, sNotes, start, end) => {
+            const svg = document.getElementById(id); if(!svg) return;
+            svg.innerHTML = '';
+            const numFrets = end - start;
+            const width = (numFrets + 1) * 70;
+            svg.setAttribute('viewBox', `0 0 ${width + 60} 220`);
+
+            for(let f=0; f <= numFrets + 1; f++) {
+                const x = f * 70 + 35;
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", x); line.setAttribute("y1", 40); line.setAttribute("x2", x); line.setAttribute("y2", 190);
+                line.setAttribute("stroke", f === 0 && start === 0 ? "#000" : "#ccc");
+                line.setAttribute("stroke-width", f === 0 && start === 0 ? "5" : "1");
+                svg.appendChild(line);
+                if(f <= numFrets) {
+                    const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    txt.setAttribute("x", x + 35); txt.setAttribute("y", 30); txt.setAttribute("text-anchor", "middle");
+                    txt.setAttribute("fill", "#999"); txt.setAttribute("font-size", "12");
+                    txt.textContent = start + f === 0 ? "NUT" : start + f;
+                    svg.appendChild(txt);
                 }
             }
+
+            tuning.forEach((tn, sIdx) => {
+                const y = sIdx * 30 + 40;
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", 35); line.setAttribute("y1", y); line.setAttribute("x2", width + 35); line.setAttribute("y2", y);
+                line.setAttribute("stroke", "#ddd"); svg.appendChild(line);
+
+                for(let f=start; f<=end; f++) {
+                    const note = notes[(tn + f) % 12];
+                    if(sNotes.includes(note)) {
+                        const circleX = (f === 0) ? 15 : ((f-start) * 70 + 35 - 35);
+                        const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        c.setAttribute("cx", circleX); c.setAttribute("cy", y); c.setAttribute("r", 12);
+                        c.setAttribute("fill", note === selNote ? "#333" : "#00b4d8");
+                        svg.appendChild(c);
+                        const nt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                        nt.setAttribute("x", circleX); nt.setAttribute("y", y+4); nt.setAttribute("fill", "white");
+                        nt.setAttribute("font-size", "10"); nt.setAttribute("text-anchor", "middle");
+                        nt.textContent = note; svg.appendChild(nt);
+                    }
+                }
+            });
+        };
+
+        // --- ARŞİV & REPERTUAR & AUTH (KEMİK KOD) ---
+        window.allSongs = []; window.originalLyrics = ""; window.currentLyrics = ""; window.currentUser = null; window.currentSongId = null; window.selectedRepForAdding = null; window.activeViewRep = null;
+        const artists = ["Duman", "Mor ve Ötesi", "manga", "Yüksek Sadakat", "Gripin", "Onur Can Özcan", "Ogün Sanlısoy", "Sertab Erener", "Gökhan Türkmen", "Kıraç", "Redd", "Şebnem Ferah","Teoman","Barış Manço","Pinhani","Umut Kaya","Çilekeş","Levent Yüksel","Kargo","Manuş Baba"];
+        
+        fetch('sarkilar.json').then(res => res.json()).then(data => { window.allSongs = data; });
+        
+        onAuthStateChanged(auth, async (user) => { 
+            if (user) { 
+                const docSnap = await getDoc(doc(db, "users", user.uid)); 
+                if (docSnap.exists()) { 
+                    window.currentUser = { uid: user.uid, ...docSnap.data() }; 
+                    document.getElementById('authNav').innerHTML = `<span class="user-info">SELAM, ${window.currentUser.username.toUpperCase()}</span> <button class="auth-btn" onclick="window.logout()">ÇIKIŞ YAP</button>`; 
+                } 
+            } 
         });
 
-        // AUTH İŞLEMLERİ
-        window.showAuth = (type) => {
-            document.getElementById('authModal').style.display = 'block';
-            const submit = document.getElementById('authSubmit');
-            const title = document.getElementById('authTitle');
-            if(type === 'register') {
-                title.innerText = "Hesap Oluştur"; submit.innerText = "KAYDOL";
-                submit.onclick = async () => {
-                    const u = document.getElementById('username').value;
-                    const p = document.getElementById('password').value;
-                    try {
-                        const cred = await createUserWithEmailAndPassword(auth, u + "@leke.com", p);
-                        await setDoc(doc(db, "users", cred.user.uid), { username: u, repertoires: {} });
-                        location.reload();
-                    } catch(e) { alert("Hata!"); }
-                };
-            } else {
-                title.innerText = "Giriş Yap"; submit.innerText = "GİRİŞ";
-                submit.onclick = async () => {
-                    const u = document.getElementById('username').value;
-                    const p = document.getElementById('password').value;
-                    try { await signInWithEmailAndPassword(auth, u + "@leke.com", p); location.reload(); } catch(e) { alert("Hatalı giriş!"); }
-                };
-            }
+        window.showAuth = (type) => { 
+            document.getElementById('authModal').style.display = 'block'; 
+            const submit = document.getElementById('authSubmit'); 
+            const title = document.getElementById('authTitle'); 
+            if(type === 'register') { 
+                title.innerText = "Hesap Oluştur"; submit.innerText = "KAYDOL"; 
+                submit.onclick = async () => { 
+                    const u = document.getElementById('username').value; const p = document.getElementById('password').value; 
+                    try { 
+                        const cred = await createUserWithEmailAndPassword(auth, u + "@leke.com", p); 
+                        await setDoc(doc(db, "users", cred.user.uid), { username: u, repertoires: {} }); 
+                        location.reload(); 
+                    } catch(e) { alert("Hata!"); } 
+                }; 
+            } else { 
+                title.innerText = "Giriş Yap"; submit.innerText = "GİRİŞ"; 
+                submit.onclick = async () => { 
+                    const u = document.getElementById('username').value; const p = document.getElementById('password').value; 
+                    try { await signInWithEmailAndPassword(auth, u + "@leke.com", p); location.reload(); } catch(e) { alert("Hatalı giriş!"); } 
+                }; 
+            } 
         };
+
         window.logout = () => signOut(auth).then(() => location.reload());
-
-        // ŞARKI MODALI VE TRANSPOZE
-        window.openSong = (id) => {
-            const song = window.allSongs.find(s => s.id === id);
-            window.currentSongId = id;
-            window.originalLyrics = song.content || ""; window.currentLyrics = window.originalLyrics;
-            document.getElementById('songHeader').innerHTML = `<h1>${song.title}</h1><h3>${song.artist}</h3>`;
-            document.getElementById('noteGrid').innerHTML = notes.map((n, i) => `<button class="note-btn" onclick="window.jumpToTone(${i})">${n}</button>`).join('');
-            if(window.currentUser) document.getElementById('addSongToRep').style.display = 'inline-block';
-            window.updateUI();
-            document.getElementById('songModal').style.display = 'block';
+        
+        window.openSong = (id) => { 
+            const song = window.allSongs.find(s => s.id === id); window.currentSongId = id; window.originalLyrics = song.content || ""; window.currentLyrics = window.originalLyrics; 
+            document.getElementById('songHeader').innerHTML = `<h1>${song.title}</h1><h3>${song.artist}</h3>`; 
+            document.getElementById('noteGrid').innerHTML = notes.map((n, i) => `<button class="note-btn" onclick="window.jumpToTone(${i})">${n}</button>`).join(''); 
+            if(window.currentUser) document.getElementById('addSongToRep').style.display = 'inline-block'; 
+            window.updateUI(); document.getElementById('songModal').style.display = 'block'; 
         };
 
-        window.updateUI = () => {
-            const chordRegex = /(?<=^|\s|\|)([A-G][#b]?(m|[0-9]|maj|sus|dim|add)?)(?=\s|$|\|)/g;
-            const highlighted = window.currentLyrics.replace(chordRegex, '<b>$1</b>');
-            document.getElementById('modalBody').innerHTML = `<pre>${highlighted}</pre>`;
+        window.updateUI = () => { 
+            const chordRegex = /(?<=^|\s|\|)([A-G][#b]?(m|[0-9]|maj|sus|dim|add)?)(?=\s|$|\|)/g; 
+            const highlighted = window.currentLyrics.replace(chordRegex, '<b>$1</b>'); 
+            document.getElementById('modalBody').innerHTML = `<pre>${highlighted}</pre>`; 
         };
 
-        window.transposeSteps = (steps) => {
-            const chordRegex = /\b([A-G][#b]?)(m|[0-9])?\b/g;
-            window.currentLyrics = window.currentLyrics.replace(chordRegex, (match, note, suffix) => {
-                let tempNote = note.replace('Bb', 'A#').replace('Eb', 'D#');
-                let idx = notes.indexOf(tempNote);
-                return idx === -1 ? match : notes[(idx + steps + 12) % 12] + (suffix || "");
-            });
-            window.updateUI();
+        window.transposeSteps = (steps) => { 
+            const chordRegex = /\b([A-G][#b]?)(m|[0-9])?\b/g; 
+            window.currentLyrics = window.currentLyrics.replace(chordRegex, (match, note, suffix) => { 
+                let tempNote = note.replace('Bb', 'A#').replace('Eb', 'D#'); 
+                let idx = notes.indexOf(tempNote); return idx === -1 ? match : notes[(idx + steps + 12) % 12] + (suffix || ""); 
+            }); 
+            window.updateUI(); 
         };
 
-        window.jumpToTone = (targetIdx) => {
-            const match = window.originalLyrics.match(/\b([A-G][#b]?)(m|[0-9])?\b/);
-            if (match) {
-                let diff = (targetIdx - notes.indexOf(match[1].replace('Bb', 'A#').replace('Eb', 'D#')) + 12) % 12;
-                window.currentLyrics = window.originalLyrics; window.transposeSteps(diff);
-            }
+        window.jumpToTone = (targetIdx) => { 
+            const match = window.originalLyrics.match(/\b([A-G][#b]?)(m|[0-9])?\b/); 
+            if (match) { 
+                let diff = (targetIdx - notes.indexOf(match[1].replace('Bb', 'A#').replace('Eb', 'D#')) + 12) % 12; 
+                window.currentLyrics = window.originalLyrics; window.transposeSteps(diff); 
+            } 
         };
 
-        // ARŞİV VE LİSTELEME
-        window.openArchive = () => {
-            document.getElementById('repertoireSection').style.display = 'none';
-            document.getElementById('archiveContent').style.display = 'block';
-            const filterContainer = document.getElementById('artistFilters');
-            filterContainer.innerHTML = '<button class="filter-btn active" onclick="window.filterByArtist(\'Hepsi\', this)">TÜMÜ</button>';
-            artists.sort().forEach(artist => {
-                const btn = document.createElement('button'); btn.className = 'filter-btn'; btn.innerText = artist;
-                btn.onclick = (e) => window.filterByArtist(artist, e.target);
-                filterContainer.appendChild(btn);
-            });
-            window.renderSongs(window.allSongs);
+        window.openArchive = () => { 
+            document.getElementById('repertoireSection').style.display = 'none'; 
+            document.getElementById('archiveContent').style.display = 'block'; 
+            const filterContainer = document.getElementById('artistFilters'); 
+            filterContainer.innerHTML = '<button class="filter-btn active" onclick="window.filterByArtist(\'Hepsi\', this)">TÜMÜ</button>'; 
+            artists.sort().forEach(artist => { 
+                const btn = document.createElement('button'); btn.className = 'filter-btn'; btn.innerText = artist; 
+                btn.onclick = (e) => window.filterByArtist(artist, e.target); filterContainer.appendChild(btn); 
+            }); 
+            window.renderSongs(window.allSongs); 
         };
 
-        window.renderSongs = (songs) => {
-            document.getElementById('songList').innerHTML = songs.map(song => {
-                let actionBtn = '';
-                if (window.activeViewRep) {
-                    actionBtn = `<button class="quick-remove" onclick="window.removeFromRep(event, ${song.id}, '${window.activeViewRep}')">✕</button>`;
-                } else if (window.selectedRepForAdding) {
-                    const isAlreadyIn = window.currentUser.repertoires[window.selectedRepForAdding].includes(song.id);
-                    actionBtn = isAlreadyIn ? 
-                        `<button class="quick-remove" onclick="window.removeFromRep(event, ${song.id}, '${window.selectedRepForAdding}')">−</button>` : 
-                        `<button class="quick-add" style="display:block;" onclick="window.quickAddToRep(event, ${song.id})">+</button>`;
-                }
-                return `<div class="card" onclick="window.openSong(${song.id})">${actionBtn}<span>${song.artist}</span><h3>${song.title}</h3></div>`;
-            }).join('');
+        window.renderSongs = (songs) => { 
+            document.getElementById('songList').innerHTML = songs.map(song => { 
+                let actionBtn = ''; 
+                if (window.activeViewRep) { 
+                    actionBtn = `<button class="quick-remove" onclick="window.removeFromRep(event, ${song.id}, '${window.activeViewRep}')">✕</button>`; 
+                } else if (window.selectedRepForAdding) { 
+                    const isAlreadyIn = window.currentUser.repertoires[window.selectedRepForAdding].includes(song.id); 
+                    actionBtn = isAlreadyIn ? `<button class="quick-remove" onclick="window.removeFromRep(event, ${song.id}, '${window.selectedRepForAdding}')">−</button>` : `<button class="quick-add" style="display:block;" onclick="window.quickAddToRep(event, ${song.id})">+</button>`; 
+                } 
+                return `<div class="card" onclick="window.openSong(${song.id})">${actionBtn}<span>${song.artist}</span><h3>${song.title}</h3></div>`; 
+            }).join(''); 
         };
 
-        // REPERTUAR YÖNETİMİ
-        window.openRepertoire = () => {
-            if(!window.currentUser) return alert("Giriş yapmalısın!");
-            document.getElementById('archiveContent').style.display = 'none';
-            document.getElementById('repertoireSection').style.display = 'block';
-            window.renderRepertoires();
+        window.openRepertoire = () => { 
+            if(!window.currentUser) return alert("Giriş yapmalısın!"); 
+            document.getElementById('archiveContent').style.display = 'none'; 
+            document.getElementById('repertoireSection').style.display = 'block'; window.renderRepertoires(); 
         };
 
-        window.renderRepertoires = () => {
-            const div = document.getElementById('repertoireLists'); div.innerHTML = "";
-            for(let name in window.currentUser.repertoires) {
-                const songIds = window.currentUser.repertoires[name];
-                div.innerHTML += `
-                <div class="rep-header-card">
-                    <div onclick="window.viewRepertoireSongs('${name}')" style="cursor:pointer">
-                        <strong>${name.toUpperCase()}</strong>
-                        <div style="font-size:10px; color:#888;">${songIds.length} ŞARKI</div>
-                    </div>
-                    <div style="display:flex; gap:10px;">
-                        <button class="auth-btn" style="border-color:#0056b3; color:#0056b3" onclick="window.startAddingToRep('${name}')">ŞARKI EKLE (+)</button>
-                        <button class="auth-btn" style="border-color:#ff4444; color:#ff4444" onclick="window.deleteWholeRep('${name}')">SİL</button>
-                    </div>
-                </div>`;
-            }
+        window.renderRepertoires = () => { 
+            const div = document.getElementById('repertoireLists'); div.innerHTML = ""; 
+            for(let name in window.currentUser.repertoires) { 
+                const songIds = window.currentUser.repertoires[name]; 
+                div.innerHTML += `<div class="rep-header-card"><div onclick="window.viewRepertoireSongs('${name}')" style="cursor:pointer"><strong>${name.toUpperCase()}</strong><div style="font-size:10px; color:#888;">${songIds.length} ŞARKI</div></div><div style="display:flex; gap:10px;"><button class="auth-btn" style="border-color:#0056b3; color:#0056b3" onclick="window.startAddingToRep('${name}')">ŞARKI EKLE (+)</button><button class="auth-btn" style="border-color:#ff4444; color:#ff4444" onclick="window.deleteWholeRep('${name}')">SİL</button></div></div>`; 
+            } 
         };
 
-        window.startAddingToRep = (repName) => {
-            window.selectedRepForAdding = repName; window.activeViewRep = null;
-            document.getElementById('selectionModeNotice').style.display = 'block';
-            document.getElementById('activeRepNameDisplay').innerText = repName.toUpperCase();
-            window.openArchive();
+        window.startAddingToRep = (repName) => { 
+            window.selectedRepForAdding = repName; window.activeViewRep = null; 
+            document.getElementById('selectionModeNotice').style.display = 'block'; 
+            document.getElementById('activeRepNameDisplay').innerText = repName.toUpperCase(); window.openArchive(); 
         };
 
-        window.cancelSelectionMode = () => {
-            window.selectedRepForAdding = null;
-            document.getElementById('selectionModeNotice').style.display = 'none';
-            window.renderSongs(window.allSongs);
+        window.cancelSelectionMode = () => { window.selectedRepForAdding = null; document.getElementById('selectionModeNotice').style.display = 'none'; window.renderSongs(window.allSongs); };
+        
+        window.quickAddToRep = async (e, songId) => { 
+            e.stopPropagation(); const repName = window.selectedRepForAdding; const newReps = {...window.currentUser.repertoires}; 
+            newReps[repName].push(songId); await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps }); 
+            window.currentUser.repertoires = newReps; window.renderSongs(window.allSongs); 
         };
 
-        window.quickAddToRep = async (e, songId) => {
-            e.stopPropagation();
-            const repName = window.selectedRepForAdding;
-            const newReps = {...window.currentUser.repertoires};
-            newReps[repName].push(songId);
-            await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps });
-            window.currentUser.repertoires = newReps; window.renderSongs(window.allSongs);
+        window.removeFromRep = async (e, songId, repName) => { 
+            e.stopPropagation(); if(!confirm("Şarkı listeden çıkarılsın mı?")) return; 
+            const newReps = {...window.currentUser.repertoires}; newReps[repName] = newReps[repName].filter(id => id !== songId); 
+            await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps }); 
+            window.currentUser.repertoires = newReps; window.activeViewRep ? window.viewRepertoireSongs(repName) : window.renderSongs(window.allSongs); 
         };
 
-        window.removeFromRep = async (e, songId, repName) => {
-            e.stopPropagation();
-            if(!confirm("Şarkı listeden çıkarılsın mı?")) return;
-            const newReps = {...window.currentUser.repertoires};
-            newReps[repName] = newReps[repName].filter(id => id !== songId);
-            await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps });
-            window.currentUser.repertoires = newReps;
-            window.activeViewRep ? window.viewRepertoireSongs(repName) : window.renderSongs(window.allSongs);
+        window.viewRepertoireSongs = (name) => { 
+            window.activeViewRep = name; window.selectedRepForAdding = null; 
+            document.getElementById('selectionModeNotice').style.display = 'none'; 
+            const songs = window.allSongs.filter(s => window.currentUser.repertoires[name].includes(s.id)); 
+            document.getElementById('repertoireSection').style.display = 'none'; 
+            document.getElementById('archiveContent').style.display = 'block'; window.renderSongs(songs); 
         };
 
-        window.viewRepertoireSongs = (name) => {
-            window.activeViewRep = name; window.selectedRepForAdding = null;
-            document.getElementById('selectionModeNotice').style.display = 'none';
-            const songs = window.allSongs.filter(s => window.currentUser.repertoires[name].includes(s.id));
-            document.getElementById('repertoireSection').style.display = 'none';
-            document.getElementById('archiveContent').style.display = 'block';
-            window.renderSongs(songs);
+        window.createNewRepertoire = async () => { 
+            const name = prompt("Liste adı?"); 
+            if(name && window.currentUser) { 
+                const newReps = {...window.currentUser.repertoires, [name]: []}; 
+                await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps }); 
+                window.currentUser.repertoires = newReps; window.renderRepertoires(); 
+            } 
         };
 
-        window.createNewRepertoire = async () => {
-            const name = prompt("Liste adı?");
-            if(name && window.currentUser) {
-                const newReps = {...window.currentUser.repertoires, [name]: []};
-                await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps });
-                window.currentUser.repertoires = newReps; window.renderRepertoires();
-            }
+        window.deleteWholeRep = async (name) => { 
+            if(!confirm("Tüm listeyi silmek istediğine emin misin?")) return; 
+            const newReps = {...window.currentUser.repertoires}; delete newReps[name]; 
+            await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps }); 
+            window.currentUser.repertoires = newReps; window.renderRepertoires(); 
         };
 
-        window.deleteWholeRep = async (name) => {
-            if(!confirm("Tüm listeyi silmek istediğine emin misin?")) return;
-            const newReps = {...window.currentUser.repertoires};
-            delete newReps[name];
-            await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps });
-            window.currentUser.repertoires = newReps; window.renderRepertoires();
-        };
-
-        // YARDIMCI FONKSİYONLAR
         window.closeSong = () => document.getElementById('songModal').style.display = 'none';
         window.closeAuth = () => document.getElementById('authModal').style.display = 'none';
         window.closeArchive = () => { window.activeViewRep = null; document.getElementById('archiveContent').style.display = 'none'; };
         window.closeRepertoire = () => document.getElementById('repertoireSection').style.display = 'none';
-        window.resetTone = () => { window.currentLyrics = window.originalLyrics; window.updateUI(); };
-        window.filterByArtist = (artist, btn) => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            window.renderSongs((artist === 'Hepsi') ? window.allSongs : window.allSongs.filter(s => s.artist === artist));
-        };
-
-        document.getElementById('songSearch').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            window.renderSongs(window.allSongs.filter(s => s.title.toLowerCase().includes(term) || s.artist.toLowerCase().includes(term)));
-        });
     </script>
 </body>
 </html>
