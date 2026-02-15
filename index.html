@@ -9,13 +9,14 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: #0a0a0a; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
         
-        nav { padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(18, 18, 18, 0.95); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); border-bottom: 1px solid #222; }
+        /* MOBİLDE BUTONLARIN TAŞMASINI ENGELLEYEN NAV AYARI */
+        nav { padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(18, 18, 18, 0.95); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); border-bottom: 1px solid #222; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 22px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; }
-        .nav-links { display: flex; align-items: center; }
+        .nav-links { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; }
         .nav-links a, .nav-links span.nav-item { color: #888; text-decoration: none; margin-left: 25px; font-size: 13px; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
         .nav-links a:hover, .nav-links span.nav-item:hover { color: #fff; }
 
-        .auth-buttons { margin-left: 20px; display: flex; gap: 10px; border-left: 1px solid #333; padding-left: 20px; }
+        .auth-buttons { margin-left: 20px; display: flex; gap: 10px; border-left: 1px solid #333; padding-left: 20px; flex-wrap: wrap; }
         .auth-btn { background: #111; border: 1px solid #333; color: #fff; padding: 5px 12px; font-size: 11px; cursor: pointer; border-radius: 3px; transition: 0.3s; }
         .auth-btn:hover { background: #fff; color: #000; }
         .user-info { font-size: 12px; color: #fff; font-weight: bold; }
@@ -41,7 +42,7 @@
 
         /* --- ARŞİV TASARIMI --- */
         .archive-section { padding: 40px 5%; text-align: center; background: #0d0d0d; }
-        .btn-group { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
+        .btn-group { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
         #toggleArchive, #btnRep { padding: 15px 40px; background: none; border: 1px solid #fff; color: white; cursor: pointer; letter-spacing: 2px; font-weight: bold; transition: 0.3s; }
         #toggleArchive:hover, #btnRep:hover { background: #fff; color: #000; }
         
@@ -70,13 +71,19 @@
         .transpose-bar { background: #f0f0f0; padding: 20px; margin: 20px 0; border-radius: 4px; display: flex; flex-direction: column; gap: 15px; align-items: center; border: 1px solid #ddd; }
         .note-btn { padding: 8px 12px; background: #fff; border: 1px solid #ccc; color: #333; cursor: pointer; font-size: 12px; min-width: 40px; }
         .note-btn:hover { background: #eee; }
-        pre { font-family: 'Courier New', monospace; font-size: 1.1rem; line-height: 1.8; color: #333; white-space: pre; border-top: 1px solid #eee; padding-top: 20px; overflow-x: auto; }
+        
+        /* MOBİLDE AKORLARIN KAYMASINI ENGELLEYEN PRE AYARI */
+        pre { font-family: 'Courier New', monospace; font-size: 1.1rem; line-height: 1.8; color: #333; white-space: pre-wrap; word-break: break-all; border-top: 1px solid #eee; padding-top: 20px; overflow-x: auto; }
         b { color: #0056b3; background: rgba(0, 86, 179, 0.05); padding: 1px 4px; border-radius: 3px; font-weight: bold; }
         .close-btn { float: right; font-size: 28px; cursor: pointer; color: #999; background: none; border: none; }
 
         footer { padding: 50px; text-align: center; font-size: 12px; color: #444; letter-spacing: 2px; }
 
-        @media (max-width: 768px) { .grid { column-count: 2; } }
+        @media (max-width: 768px) { 
+            .grid { column-count: 2; }
+            .nav-links a, .nav-links span.nav-item { margin-left: 10px; margin-right: 10px; }
+            .auth-buttons { border-left: none; padding-left: 0; margin-left: 0; margin-top: 10px; justify-content: center; width: 100%; }
+        }
     </style>
 </head>
 <body onload="checkLogin()">
@@ -147,7 +154,7 @@
         </div>
 
         <div id="repertoireSection">
-            <div style="display:flex; justify-content:center; gap:10px; margin-bottom:30px;">
+            <div style="display:flex; justify-content:center; gap:10px; margin-bottom:30px; flex-wrap:wrap;">
                 <button class="auth-btn" onclick="createNewRepertoire()">+ YENİ LİSTE OLUŞTUR</button>
                 <button class="auth-btn" style="border-color:#ff4444; color:#ff4444" onclick="closeRepertoire()">KAPAT</button>
             </div>
