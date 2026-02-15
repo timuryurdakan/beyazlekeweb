@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyaz Leke Stüdyo | Akor & Arşiv</title>
+    <style>
+        /* --- GENEL TASARIM --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #0a0a0a; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
+        
+        nav { padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(18, 18, 18, 0.95); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); border-bottom: 1px solid #222; }
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; }
+        .nav-links a { color: #888; text-decoration: none; margin-left: 30px; font-size: 13px; transition: 0.3s; text-transform: uppercase; }
+        .nav-links a:hover { color: #fff; }
+
+        .hero { height: 45vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('studio/foto1.jpeg') center/cover; }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; letter-spacing: -2px; }
+
+        .intro-text { padding: 60px 10%; text-align: center; }
+        .intro-text p { font-size: 1.2rem; color: #ccc; max-width: 800px; margin: 0 auto; }
+
+        /* --- REPERTUVAR BÖLÜMÜ --- */
+        .archive-section { padding: 40px 5%; text-align: center; background: #0d0d0d; }
+        #toggleArchive { padding: 15px 40px; background: none; border: 1px solid #fff; color: white; cursor: pointer; letter-spacing: 2px; font-weight: bold; transition: 0.3s; }
+        #toggleArchive:hover { background: #fff; color: #000; }
+        
+        #archiveContent { display: none; margin-top: 30px; }
+        #songSearch { width: 100%; max-width: 500px; padding: 15px; background: #111; border: 1px solid #333; color: white; border-radius: 4px; outline: none; margin-bottom: 20px; }
+
+        .artist-filters { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 30px; max-width: 900px; margin-left: auto; margin-right: auto; }
+        .filter-btn { background: #111; border: 1px solid #333; color: #888; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 11px; transition: 0.3s; text-transform: uppercase; }
+        .filter-btn:hover, .filter-btn.active { border-color: #fff; color: #fff; background: #222; }
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .card { padding: 30px; background: #111; border: 1px solid #222; text-align: center; border-radius: 4px; transition: 0.3s; cursor: pointer; }
+        .card:hover { border-color: #fff; transform: translateY(-5px); }
+
+        /* --- GALERİ --- */
+        .gallery { padding: 60px 5%; }
+        .grid { column-count: 3; column-gap: 20px; }
+        .grid img { width: 100%; display: block; margin-bottom: 20px; border-radius: 5px; transition: 0.5s; cursor: pointer; filter: brightness(0.8); }
+        .grid img:hover { filter: brightness(1); transform: scale(1.02); }
+
+        /* --- MODAL & TRANSPOZE --- */
+        #songModal { display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: #000; z-index: 2001; overflow-y: auto; padding: 20px; }
+        .modal-content { max-width: 800px; margin: 20px auto; background: #0a0a0a; padding: 30px; border: 1px solid #222; position: relative; }
+        .transpose-bar { background: #111; padding: 20px; margin: 20px 0; border-radius: 4px; display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .note-grid { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+        .note-btn { padding: 8px 12px; background: #222; border: 1px solid #444; color: #fff; cursor: pointer; font-size: 12px; min-width: 40px; transition: 0.2s; }
+        .note-btn:hover { border-color: #fff; }
+        .step-btns button { padding: 5px 15px; background: #333; border: 1px solid #555; color: #fff; cursor: pointer; margin: 0 5px; }
+
+        /* ZOOM BUTONLARI */
+        .zoom-controls { margin-top: 10px; display: flex; gap: 10px; }
+        .zoom-btn { padding: 5px 12px; background: #444; border: 1px solid #666; color: #fff; cursor: pointer; border-radius: 3px; font-weight: bold; }
+
+        /* ÖZEL HİZMET AÇIKLAMA KUTUSU */
+        .service-box { background: #111; border: 1px solid #333; padding: 40px; border-radius: 8px; margin-top: 20px; text-align: center; }
+        .service-box p { font-size: 1.3rem; color: #eee; line-height: 1.8; }
+
+        pre { font-family: 'Courier New', monospace; font-size: 1.1rem; line-height: 1.8; color: #bbb; white-space: pre; border-top: 1px solid #222; padding-top: 20px; overflow-x: auto; transition: font-size 0.2s; }
+        b { color: #fff; background: #333; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
+        .close-btn { float: right; font-size: 28px; cursor: pointer; color: #666; background: none; border: none; }
+
+        footer { padding: 50px; text-align: center; font-size: 12px; color: #444; letter-spacing: 2px; }
+
+        @media (max-width: 600px) { .grid { column-count: 1; } pre { font-size: 0.9rem; } .service-box { padding: 20px; } .service-box p { font-size: 1.1rem; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">BEYAZ LEKE</div>
+        <div class="nav-links">
+            <a href="#akorlar">Akor Arşivi</a>
+            <a href="#hizmetler">Hizmetler</a>
+            <a href="#galeri">Galeri</a>
+        </div>
+    </nav>
+
+    <section class="hero"><h1>BEYAZ LEKE STÜDYO</h1></section>
+
+    <section class="intro-text">
+        <p>Her büyük eser, sessiz bir boşlukla başlar. <strong>Beyaz Leke</strong> ile müziğine ruh kat.</p>
+    </section>
+
+    <section id="akorlar" class="archive-section">
+        <h2 style="letter-spacing: 3px; margin-bottom: 25px;">MÜZİK REPERTUVARI</h2>
+        <button id="toggleArchive" onclick="openArchive()">ARŞİVİ GÖRÜNTÜLE</button>
+        <div id="archiveContent">
+            <input type="text" id="songSearch" placeholder="Şarkı veya sanatçı ara...">
+            <div class="artist-filters" id="artistFilters">
+                <button class="filter-btn active" onclick="filterByArtist('Hepsi', this)">TÜMÜ</button>
+            </div>
+            <div id="songList" class="services-grid"></div>
+        </div>
+    </section>
+
+    <section id="hizmetler" style="padding: 60px 5%;">
+        <div class="services-grid">
+            <div class="card" onclick="openService('ENSTRÜMAN DERSLERİ')"><h3>ENSTRÜMAN DERSLERİ</h3></div>
+            <div class="card" onclick="openService('ARANJE')"><h3>ARANJE</h3></div>
+            <div class="card" onclick="openService('MIX & MASTERING')"><h3>MIX & MASTERING</h3></div>
+            <div class="card" onclick="openService('STÜDYO KİRALAMA')"><h3>STÜDYO KİRALAMA</h3></div>
+        </div>
+    </section>
+
+    <section id="galeri" class="gallery">
+        <div class="grid">
+            <img src="studio/foto10.jpeg" alt="1"><img src="studio/foto1.jpeg" alt="2"><img src="studio/foto3.jpeg" alt="3">
+            <img src="studio/foto5.jpeg" alt="4"><img src="studio/foto2.jpeg" alt="5"><img src="studio/foto8.jpeg" alt="6">
+        </div>
+    </section>
+
+    <div id="songModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeSong()">✕</button>
+            <div id="songHeader"></div>
+            
+            <div class="transpose-bar" id="modalControls">
+                <span style="font-size: 11px; color: #888;">DİREKT TON SEÇ:</span>
+                <div class="note-grid" id="noteGrid"></div>
+                <div class="step-btns">
+                    <button onclick="transposeSteps(-1)">- ½</button>
+                    <button onclick="transposeSteps(1)">+ ½</button>
+                    <button onclick="resetTone()" style="background: #444;">ORİJİNAL</button>
+                </div>
+                <div class="zoom-controls">
+                    <button class="zoom-btn" onclick="changeFontSize(-0.1)">A -</button>
+                    <button class="zoom-btn" onclick="changeFontSize(0.1)">A +</button>
+                </div>
+            </div>
+            
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer>BEYAZ LEKE MUSIC STUDIO &copy; 2026</footer>
+
+    <script>
+        let allSongs = [];
+        let originalLyrics = ""; 
+        let currentLyrics = "";  
+        let currentFontSize = 1.1;
+        const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+        const artists = ["Duman", "Mor ve Ötesi", "manga", "Yüksek Sadakat", "Gripin", "Onur Can Özcan", "Ogün Sanlısoy", "Sertab Erener", "Gökhan Türkmen", "Kıraç", "Redd", "Şebnem Ferah"];
+
+        const serviceDescriptions = {
+            "ENSTRÜMAN DERSLERİ": "Sadece çalmayı değil, enstrümanla bağ kurmayı öğretiyoruz. Gitardan piyanoya, teknikten ruha uzanan kişiselleştirilmiş eğitim programlarıyla müziğini temellendir.",
+            "ARANJE": "Ham bir besteyi, türünün sınırlarını zorlayan bir başyapıta dönüştürüyoruz. Melodini doğru enstrümanlarla giydirip, şarkının hikayesini en güçlü şekilde anlatmasını sağlıyoruz.",
+            "MIX & MASTERING": "Müziğinin her frekansını parlatıyor, her kanalın nefes almasını sağlıyoruz. Global standartlarda duyulabilirlik ve kristal netliğinde bir final dokunuşu için doğru yerdesin.",
+            "STÜDYO KİRALAMA": "İlhamın ne zaman geleceği belli olmaz. Akustik olarak optimize edilmiş ekipmanlarla donatılmış Beyaz Leke alanını kendi yaratım sürecin için kullan."
+        };
+
+        fetch('sarkilar.json').then(res => res.json()).then(data => { allSongs = data; });
+
+        function openArchive() {
+            document.getElementById('toggleArchive').style.display = 'none';
+            document.getElementById('archiveContent').style.display = 'block';
+            const filterContainer = document.getElementById('artistFilters');
+            filterContainer.innerHTML = '<button class="filter-btn active" onclick="filterByArtist(\'Hepsi\', this)">TÜMÜ</button>';
+            artists.forEach(artist => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.innerText = artist;
+                btn.onclick = (e) => filterByArtist(artist, e.target);
+                filterContainer.appendChild(btn);
+            });
+            renderSongs(allSongs);
+        }
+
+        function filterByArtist(artist, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderSongs((artist === 'Hepsi') ? allSongs : allSongs.filter(s => s.artist === artist));
+        }
+
+        function renderSongs(songs) {
+            document.getElementById('songList').innerHTML = songs.map(song => `
+                <div class="card" onclick="openSong(${song.id})">
+                    <span style="font-size: 11px; color: #666;">${song.artist}</span>
+                    <h3 style="margin-top: 5px;">${song.title}</h3>
+                </div>
+            `).join('');
+        }
+
+        function openSong(id) {
+            const song = allSongs.find(s => s.id === id);
+            originalLyrics = song.content || song.lyrics; 
+            currentLyrics = originalLyrics;
+            currentFontSize = 1.1;
+            document.getElementById('modalControls').style.display = 'flex';
+            document.getElementById('songHeader').innerHTML = `<h1 style="text-align:center;">${song.title}</h1><h3 style="text-align:center; color:#888; font-weight:300;">${song.artist}</h3>`;
+            createNoteButtons();
+            updateUI();
+            document.getElementById('songModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openService(serviceName) {
+            document.getElementById('modalControls').style.display = 'none';
+            document.getElementById('songHeader').innerHTML = `<h1 style="text-align:center;">${serviceName}</h1>`;
+            document.getElementById('modalBody').innerHTML = `
+                <div class="service-box">
+                    <p>${serviceDescriptions[serviceName]}</p>
+                </div>`;
+            document.getElementById('songModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function changeFontSize(delta) {
+            currentFontSize += delta;
+            const pre = document.querySelector('pre');
+            if (pre) pre.style.fontSize = currentFontSize + 'rem';
+        }
+
+        function createNoteButtons() {
+            document.getElementById('noteGrid').innerHTML = notes.map((n, i) => `<button class="note-btn" onclick="jumpToTone(${i})">${n}</button>`).join('');
+        }
+
+        function jumpToTone(targetIdx) {
+            const chordRegex = /\b([A-G][#b]?)(m|[0-9])?\b/;
+            const match = originalLyrics.match(chordRegex);
+            if (match) {
+                let firstNote = match[1];
+                if (firstNote.endsWith('b')) {
+                    firstNote = { 'Db':'C#', 'Eb':'D#', 'Gb':'F#', 'Ab':'G#', 'Bb':'A#' }[firstNote] || firstNote;
+                }
+                let diff = (targetIdx - notes.indexOf(firstNote) + 12) % 12;
+                currentLyrics = calculateTranspose(originalLyrics, diff);
+                updateUI();
+            }
+        }
+
+        function transposeSteps(steps) {
+            currentLyrics = calculateTranspose(currentLyrics, steps);
+            updateUI();
+        }
+
+        function calculateTranspose(text, steps) {
+            const chordRegex = /\b([A-G][#b]?)(m|[0-9])?\b/g;
+            return text.replace(chordRegex, (match, note, suffix) => {
+                let tempNote = (note === 'Bb') ? 'A#' : (note === 'Eb') ? 'D#' : note;
+                let idx = notes.indexOf(tempNote);
+                if (idx === -1) return match;
+                return notes[(idx + steps + 12) % 12] + (suffix || "");
+            });
+        }
+
+        function resetTone() { currentLyrics = originalLyrics; updateUI(); }
+
+        function updateUI() {
+            const highlighted = currentLyrics.replace(/\b([A-G][#b]?(m|[0-9])?)\b/g, '<b>$1</b>');
+            document.getElementById('modalBody').innerHTML = `<pre id="lyricsArea" style="font-size:${currentFontSize}rem;">${highlighted}</pre>`;
+        }
+
+        function closeSong() {
+            document.getElementById('songModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('songSearch').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            renderSongs(allSongs.filter(s => s.title.toLowerCase().includes(term) || s.artist.toLowerCase().includes(term)));
+        });
+    </script>
+</body>
+</html>
