@@ -9,7 +9,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: #0a0a0a; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
         
-        /* MOBİLDE BUTONLARIN TAŞMASINI ENGELLEYEN NAV AYARI */
         nav { padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(18, 18, 18, 0.95); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); border-bottom: 1px solid #222; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 22px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; }
         .nav-links { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; }
@@ -72,7 +71,6 @@
         .note-btn { padding: 8px 12px; background: #fff; border: 1px solid #ccc; color: #333; cursor: pointer; font-size: 12px; min-width: 40px; }
         .note-btn:hover { background: #eee; }
         
-        /* MOBİLDE AKORLARIN KAYMASINI ENGELLEYEN PRE AYARI */
         pre { font-family: 'Courier New', monospace; font-size: 1.1rem; line-height: 1.8; color: #333; white-space: pre-wrap; word-break: break-all; border-top: 1px solid #eee; padding-top: 20px; overflow-x: auto; }
         b { color: #0056b3; background: rgba(0, 86, 179, 0.05); padding: 1px 4px; border-radius: 3px; font-weight: bold; }
         .close-btn { float: right; font-size: 28px; cursor: pointer; color: #999; background: none; border: none; }
@@ -86,18 +84,18 @@
         }
     </style>
 </head>
-<body onload="checkLogin()">
+<body>
 
     <nav>
         <div class="logo">BEYAZ LEKE</div>
         <div class="nav-links">
-            <a href="#akorlar" onclick="openArchive()">Akor Arşivi</a>
-            <span class="nav-item" onclick="openRepertoire()">Repertuarlarım</span>
+            <a href="#akorlar" onclick="window.openArchive()">Akor Arşivi</a>
+            <span class="nav-item" onclick="window.openRepertoire()">Repertuarlarım</span>
             <a href="#hizmetler">Hizmetler</a>
             <a href="#galeri">Galeri</a>
             <div class="auth-buttons" id="authNav">
-                <button class="auth-btn" onclick="showAuth('register')">HESAP OLUŞTUR</button>
-                <button class="auth-btn" onclick="showAuth('login')">GİRİŞ YAP</button>
+                <button class="auth-btn" onclick="window.showAuth('register')">HESAP OLUŞTUR</button>
+                <button class="auth-btn" onclick="window.showAuth('login')">GİRİŞ YAP</button>
             </div>
         </div>
     </nav>
@@ -111,58 +109,37 @@
     <section id="besteler" class="besteler-section">
         <div class="beste-row">
             <div class="beste-img"><img src="studio/yiğit.jpeg" alt="Yiğit"></div>
-            <div class="beste-content">
-                <h2>KÜLLERİMDEN</h2>
-                <p>Beyaz Leke'nin ruhunu yansıtan, melankolik tınılarla örülmüş derin bir yolculuk.</p>
-                <a href="https://www.youtube.com/watch?v=uKXl4yi5dzE" target="_blank" class="yt-link">VİDEOYU İZLE</a>
-            </div>
+            <div class="beste-content"><h2>KÜLLERİMDEN</h2><p>Beyaz Leke'nin ruhunu yansıtan, melankolik tınılarla örülmüş derin bir yolculuk.</p><a href="https://www.youtube.com/watch?v=uKXl4yi5dzE" target="_blank" class="yt-link">VİDEOYU İZLE</a></div>
         </div>
-
         <div class="beste-row reverse">
             <div class="beste-img"><img src="studio/osman.jpeg" alt="Osman"></div>
-            <div class="beste-content">
-                <h2>ÖRTERE</h2>
-                <p>Karanlığın içindeki ışığı arayan, güçlü ritimlerle örülü Beyaz Leke imzası.</p>
-                <a href="https://www.youtube.com/watch?v=V-qFvd_RRT0" target="_blank" class="yt-link">VİDEOYU İZLE</a>
-            </div>
+            <div class="beste-content"><h2>ÖRTERE</h2><p>Karanlığın içindeki ışığı arayan, güçlü ritimlerle örülü Beyaz Leke imzası.</p><a href="https://www.youtube.com/watch?v=V-qFvd_RRT0" target="_blank" class="yt-link">VİDEOYU İZLE</a></div>
         </div>
-
         <div class="beste-row">
             <div class="beste-img"><img src="studio/alper.jpeg" alt="Alper"></div>
-            <div class="beste-content">
-                <h2>PRODÜKSİYON</h2>
-                <p>Aranje ve kayıt süreçlerimizde mükemmeliyeti arıyoruz. Müziğin mutfağına hoş geldiniz.</p>
-                <a href="#hizmetler" class="yt-link">HİZMETLERİMİZ</a>
-            </div>
+            <div class="beste-content"><h2>PRODÜKSİYON</h2><p>Aranje ve kayıt süreçlerimizde mükemmeliyeti arıyoruz. Müziğin mutfağına hoş geldiniz.</p><a href="#hizmetler" class="yt-link">HİZMETLERİMİZ</a></div>
         </div>
-
         <div class="beste-row reverse">
             <div class="beste-img"><img src="studio/eroltimur.jpeg" alt="Erol Timur"></div>
-            <div class="beste-content">
-                <h2>VİZYON</h2>
-                <p>Görsel ve işitsel dünyamızı birleştiren Beyaz Leke estetiği.</p>
-                <a href="#galeri" class="yt-link">GALERİYİ GEZ</a>
-            </div>
+            <div class="beste-content"><h2>VİZYON</h2><p>Görsel ve işitsel dünyamızı birleştiren Beyaz Leke estetiği.</p><a href="#galeri" class="yt-link">GALERİYİ GEZ</a></div>
         </div>
     </section>
 
     <section id="akorlar" class="archive-section">
         <h2 style="letter-spacing: 3px; margin-bottom: 25px;">MÜZİK REPERTUVARI</h2>
         <div class="btn-group">
-            <button id="toggleArchive" onclick="openArchive()">ARŞİVİ GÖRÜNTÜLE</button>
-            <button id="btnRep" onclick="openRepertoire()">REPERTUVARLARIM</button>
+            <button id="toggleArchive" onclick="window.openArchive()">ARŞİVİ GÖRÜNTÜLE</button>
+            <button id="btnRep" onclick="window.openRepertoire()">REPERTUVARLARIM</button>
         </div>
-
         <div id="repertoireSection">
             <div style="display:flex; justify-content:center; gap:10px; margin-bottom:30px; flex-wrap:wrap;">
-                <button class="auth-btn" onclick="createNewRepertoire()">+ YENİ LİSTE OLUŞTUR</button>
-                <button class="auth-btn" style="border-color:#ff4444; color:#ff4444" onclick="closeRepertoire()">KAPAT</button>
+                <button class="auth-btn" onclick="window.createNewRepertoire()">+ YENİ LİSTE OLUŞTUR</button>
+                <button class="auth-btn" style="border-color:#ff4444; color:#ff4444" onclick="window.closeRepertoire()">KAPAT</button>
             </div>
             <div id="repertoireLists" style="text-align:left; max-width:900px; margin: 0 auto;"></div>
         </div>
-
         <div id="archiveContent">
-            <button class="auth-btn" style="margin-bottom:20px; border-color:#888" onclick="closeArchive()">✕ ARŞİVİ KAPAT</button><br>
+            <button class="auth-btn" style="margin-bottom:20px; border-color:#888" onclick="window.closeArchive()">✕ ARŞİVİ KAPAT</button><br>
             <input type="text" id="songSearch" placeholder="Şarkı veya sanatçı ara...">
             <div class="artist-filters" id="artistFilters"></div>
             <div id="songList" class="services-grid"></div>
@@ -180,28 +157,22 @@
 
     <section id="galeri" class="gallery">
         <div class="grid">
-            <img src="studio/foto9.jpeg" alt="Studio 9"> 
-            <img src="studio/foto1.jpeg" alt="Studio 1">
-            <img src="studio/foto2.jpeg" alt="Studio 2">
-            <img src="studio/foto3.jpeg" alt="Studio 3">
-            <img src="studio/foto4.jpeg" alt="Studio 4">
-            <img src="studio/foto5.jpeg" alt="Studio 5">
-            <img src="studio/foto6.jpeg" alt="Studio 6">
-            <img src="studio/foto7.jpeg" alt="Studio 7">
-            <img src="studio/foto8.jpeg" alt="Studio 8">
-            </div>
+            <img src="studio/foto9.jpeg" alt="9"> <img src="studio/foto1.jpeg" alt="1"> <img src="studio/foto2.jpeg" alt="2">
+            <img src="studio/foto3.jpeg" alt="3"> <img src="studio/foto4.jpeg" alt="4"> <img src="studio/foto5.jpeg" alt="5">
+            <img src="studio/foto6.jpeg" alt="6"> <img src="studio/foto7.jpeg" alt="7"> <img src="studio/foto8.jpeg" alt="8">
+        </div>
     </section>
 
     <div id="songModal">
-        <div class="modal-content" id="modalContainer">
-            <button class="close-btn" onclick="closeSong()">✕</button>
+        <div class="modal-content">
+            <button class="close-btn" onclick="window.closeSong()">✕</button>
             <div id="songHeader"></div>
             <div class="transpose-bar" id="modalControls">
-                <div class="note-grid" id="noteGrid"></div>
+                <div id="noteGrid"></div>
                 <div style="display:flex; gap:10px;">
-                    <button class="note-btn" onclick="transposeSteps(-1)">- ½</button>
-                    <button class="note-btn" onclick="transposeSteps(1)">+ ½</button>
-                    <button class="note-btn" onclick="resetTone()" style="background: #333; color: #fff;">ORİJİNAL</button>
+                    <button class="note-btn" onclick="window.transposeSteps(-1)">- ½</button>
+                    <button class="note-btn" onclick="window.transposeSteps(1)">+ ½</button>
+                    <button class="note-btn" onclick="window.resetTone()" style="background: #333; color: #fff;">ORİJİNAL</button>
                 </div>
             </div>
             <div id="modalBody"></div>
@@ -210,7 +181,7 @@
 
     <div id="authModal">
         <div class="modal-content dark-modal" style="max-width: 400px; text-align: center;">
-            <button class="close-btn" onclick="closeAuth()">✕</button>
+            <button class="close-btn" onclick="window.closeAuth()">✕</button>
             <h2 id="authTitle" style="margin-bottom: 20px;">Giriş Yap</h2>
             <div style="display: flex; flex-direction: column; gap: 15px;">
                 <input type="text" id="username" placeholder="Kullanıcı Adı" style="padding:10px; background:#111; border:1px solid #333; color:#fff;">
@@ -222,161 +193,162 @@
 
     <footer>BEYAZ LEKE MUSIC STUDIO &copy; 2026</footer>
 
-    <script>
-        let allSongs = [];
-        let originalLyrics = ""; 
-        let currentLyrics = "";  
-        let currentUser = null;
-        let activeRepName = "";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBraE6Rq2iJ0M0efZ58A6Nvma8Ilf0_gQ",
+            authDomain: "beyazleke-3f72a.firebaseapp.com",
+            projectId: "beyazleke-3f72a",
+            storageBucket: "beyazleke-3f72a.firebasestorage.app",
+            messagingSenderId: "891882152934",
+            appId: "1:891882152934:web:696f5f5eafeca352d2ac27",
+            measurementId: "G-FZLD8N52ZC"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        window.allSongs = [];
+        window.originalLyrics = "";
+        window.currentLyrics = "";
+        window.currentUser = null;
         const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         const artists = ["Duman", "Mor ve Ötesi", "manga", "Yüksek Sadakat", "Gripin", "Onur Can Özcan", "Ogün Sanlısoy", "Sertab Erener", "Gökhan Türkmen", "Kıraç", "Redd", "Şebnem Ferah","Teoman","Barış Manço","Pinhani","Umut Kaya","Çilekeş","Levent Yüksel","Kargo","Manuş Baba"];
 
-        fetch('sarkilar.json').then(res => res.json()).then(data => { allSongs = data; }).catch(err => console.log("JSON Yüklenemedi"));
+        fetch('sarkilar.json').then(res => res.json()).then(data => { window.allSongs = data; });
 
-        function checkLogin() {
-            const loggedInUser = localStorage.getItem('activeUser');
-            if (loggedInUser) {
-                const userData = JSON.parse(localStorage.getItem('user_' + loggedInUser));
-                if (userData) { currentUser = userData; updateNavUI(loggedInUser); }
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const docSnap = await getDoc(doc(db, "users", user.uid));
+                if (docSnap.exists()) {
+                    window.currentUser = { uid: user.uid, ...docSnap.data() };
+                    document.getElementById('authNav').innerHTML = `<span class="user-info">SELAM, ${window.currentUser.username.toUpperCase()}</span> <button class="auth-btn" onclick="window.logout()">ÇIKIŞ YAP</button>`;
+                }
             }
-        }
+        });
 
-        function updateNavUI(name) {
-            document.getElementById('authNav').innerHTML = `<span class="user-info">SELAM, ${name.toUpperCase()}</span> <button class="auth-btn" onclick="logout()">ÇIKIŞ YAP</button>`;
-        }
-
-        function logout() { localStorage.removeItem('activeUser'); location.reload(); }
-
-        function showAuth(type) {
+        window.showAuth = (type) => {
             document.getElementById('authModal').style.display = 'block';
             const submit = document.getElementById('authSubmit');
+            const title = document.getElementById('authTitle');
             if(type === 'register') {
-                document.getElementById('authTitle').innerText = "Hesap Oluştur";
-                submit.innerText = "KAYDOL";
-                submit.onclick = () => {
+                title.innerText = "Hesap Oluştur"; submit.innerText = "KAYDOL";
+                submit.onclick = async () => {
                     const u = document.getElementById('username').value;
                     const p = document.getElementById('password').value;
-                    if(!u || !p) return alert("Boş bırakma!");
-                    localStorage.setItem('user_'+u, JSON.stringify({username:u, password:p, repertoires:{}}));
-                    alert("Hesap açıldı!"); showAuth('login');
+                    try {
+                        const cred = await createUserWithEmailAndPassword(auth, u + "@leke.com", p);
+                        await setDoc(doc(db, "users", cred.user.uid), { username: u, repertoires: {} });
+                        location.reload();
+                    } catch(e) { alert("Hata!"); }
                 };
             } else {
-                document.getElementById('authTitle').innerText = "Giriş Yap";
-                submit.innerText = "GİRİŞ";
-                submit.onclick = () => {
+                title.innerText = "Giriş Yap"; submit.innerText = "GİRİŞ";
+                submit.onclick = async () => {
                     const u = document.getElementById('username').value;
                     const p = document.getElementById('password').value;
-                    const data = JSON.parse(localStorage.getItem('user_'+u));
-                    if(data && data.password === p) {
-                        currentUser = data;
-                        localStorage.setItem('activeUser', u);
-                        location.reload();
-                    } else alert("Hatalı bilgiler!");
+                    try { await signInWithEmailAndPassword(auth, u + "@leke.com", p); location.reload(); } catch(e) { alert("Hatalı giriş!"); }
                 };
             }
-        }
+        };
 
-        function openSong(id) {
-            const song = allSongs.find(s => s.id === id);
-            if(!song) return;
-            originalLyrics = song.content || ""; 
-            currentLyrics = originalLyrics;
-            document.getElementById('modalControls').style.display = 'flex';
+        window.logout = () => signOut(auth).then(() => location.reload());
+
+        window.openSong = (id) => {
+            const song = window.allSongs.find(s => s.id === id);
+            window.originalLyrics = song.content || ""; window.currentLyrics = window.originalLyrics;
             document.getElementById('songHeader').innerHTML = `<h1>${song.title}</h1><h3>${song.artist}</h3>`;
-            createNoteButtons();
-            updateUI();
+            document.getElementById('noteGrid').innerHTML = notes.map((n, i) => `<button class="note-btn" onclick="window.jumpToTone(${i})">${n}</button>`).join('');
+            window.updateUI();
             document.getElementById('songModal').style.display = 'block';
-        }
+        };
 
-        function updateUI() {
+        window.updateUI = () => {
             const chordRegex = /(?<=^|\s|\|)([A-G][#b]?(m|[0-9]|maj|sus|dim|add)?)(?=\s|$|\|)/g;
-            const highlighted = currentLyrics.replace(chordRegex, '<b>$1</b>');
+            const highlighted = window.currentLyrics.replace(chordRegex, '<b>$1</b>');
             document.getElementById('modalBody').innerHTML = `<pre>${highlighted}</pre>`;
-        }
+        };
 
-        function openArchive() {
+        window.transposeSteps = (steps) => {
+            const chordRegex = /\b([A-G][#b]?)(m|[0-9])?\b/g;
+            window.currentLyrics = window.currentLyrics.replace(chordRegex, (match, note, suffix) => {
+                let tempNote = note.replace('Bb', 'A#').replace('Eb', 'D#');
+                let idx = notes.indexOf(tempNote);
+                return idx === -1 ? match : notes[(idx + steps + 12) % 12] + (suffix || "");
+            });
+            window.updateUI();
+        };
+
+        window.jumpToTone = (targetIdx) => {
+            const match = window.originalLyrics.match(/\b([A-G][#b]?)(m|[0-9])?\b/);
+            if (match) {
+                let diff = (targetIdx - notes.indexOf(match[1].replace('Bb', 'A#').replace('Eb', 'D#')) + 12) % 12;
+                window.currentLyrics = window.originalLyrics; window.transposeSteps(diff);
+            }
+        };
+
+        window.openArchive = () => {
             document.getElementById('repertoireSection').style.display = 'none';
             document.getElementById('archiveContent').style.display = 'block';
             const filterContainer = document.getElementById('artistFilters');
-            filterContainer.innerHTML = '<button class="filter-btn active" onclick="filterByArtist(\'Hepsi\', this)">TÜMÜ</button>';
+            filterContainer.innerHTML = '<button class="filter-btn active" onclick="window.filterByArtist(\'Hepsi\', this)">TÜMÜ</button>';
             artists.sort().forEach(artist => {
-                const btn = document.createElement('button');
-                btn.className = 'filter-btn';
-                btn.innerText = artist;
-                btn.onclick = (e) => filterByArtist(artist, e.target);
+                const btn = document.createElement('button'); btn.className = 'filter-btn'; btn.innerText = artist;
+                btn.onclick = (e) => window.filterByArtist(artist, e.target);
                 filterContainer.appendChild(btn);
             });
-            renderSongs(allSongs);
-        }
+            window.renderSongs(window.allSongs);
+        };
 
-        function renderSongs(songs) {
+        window.renderSongs = (songs) => {
             document.getElementById('songList').innerHTML = songs.map(song => `
-                <div class="card" onclick="openSong(${song.id})">
-                    <span>${song.artist}</span>
-                    <h3>${song.title}</h3>
-                </div>
+                <div class="card" onclick="window.openSong(${song.id})"><span>${song.artist}</span><h3>${song.title}</h3></div>
             `).join('');
-        }
+        };
 
-        function openRepertoire() {
-            if(!currentUser) return alert("Giriş yapmalısın!");
-            document.getElementById('archiveContent').style.display = 'none';
-            document.getElementById('repertoireSection').style.display = 'block';
-            renderRepertoires();
-        }
-
-        function renderRepertoires() {
-            const div = document.getElementById('repertoireLists');
-            div.innerHTML = "";
-            for(let name in currentUser.repertoires) {
-                const songs = currentUser.repertoires[name].map(id => allSongs.find(s => s.id == id));
-                div.innerHTML += `
-                    <div class="rep-header-card" onclick="activeRepName='${name}'; openArchive();">
-                        <strong>${name.toUpperCase()}</strong>
-                        <span>${songs.length} ŞARKI</span>
-                    </div>`;
-            }
-        }
-
-        function createNoteButtons() { document.getElementById('noteGrid').innerHTML = notes.map((n, i) => `<button class="note-btn" onclick="jumpToTone(${i})">${n}</button>`).join(''); }
-        function transposeSteps(s) { currentLyrics = calculateTranspose(currentLyrics, s); updateUI(); }
-        function calculateTranspose(text, steps) {
-            const chordRegex = /\b([A-G][#b]?)(m|[0-9])?\b/g;
-            return text.replace(chordRegex, (match, note, suffix) => {
-                let tempNote = note.replace('Bb', 'A#').replace('Eb', 'D#');
-                let idx = notes.indexOf(tempNote);
-                if (idx === -1) return match;
-                return notes[(idx + steps + 12) % 12] + (suffix || "");
-            });
-        }
-        function jumpToTone(targetIdx) {
-            const chordRegex = /\b([A-G][#b]?)(m|[0-9])?\b/;
-            const match = originalLyrics.match(chordRegex);
-            if (match) {
-                let firstNote = match[1].replace('Bb', 'A#').replace('Eb', 'D#');
-                let diff = (targetIdx - notes.indexOf(firstNote) + 12) % 12;
-                currentLyrics = calculateTranspose(originalLyrics, diff);
-                updateUI();
-            }
-        }
-
-        function saveUserData() { localStorage.setItem('user_'+currentUser.username, JSON.stringify(currentUser)); }
-        function createNewRepertoire() { const name = prompt("Liste adı?"); if(name) { currentUser.repertoires[name] = []; saveUserData(); renderRepertoires(); } }
-        function resetTone() { currentLyrics = originalLyrics; updateUI(); }
-        function closeSong() { document.getElementById('songModal').style.display = 'none'; }
-        function closeAuth() { document.getElementById('authModal').style.display = 'none'; }
-        function closeArchive() { document.getElementById('archiveContent').style.display = 'none'; activeRepName = ""; }
-        function closeRepertoire() { document.getElementById('repertoireSection').style.display = 'none'; }
-        function filterByArtist(artist, btn) {
+        window.filterByArtist = (artist, btn) => {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            renderSongs((artist === 'Hepsi') ? allSongs : allSongs.filter(s => s.artist === artist));
-        }
+            window.renderSongs((artist === 'Hepsi') ? window.allSongs : window.allSongs.filter(s => s.artist === artist));
+        };
+
+        window.openRepertoire = () => {
+            if(!window.currentUser) return alert("Giriş yapmalısın!");
+            document.getElementById('archiveContent').style.display = 'none';
+            document.getElementById('repertoireSection').style.display = 'block';
+            window.renderRepertoires();
+        };
+
+        window.renderRepertoires = () => {
+            const div = document.getElementById('repertoireLists'); div.innerHTML = "";
+            for(let name in window.currentUser.repertoires) {
+                const songCount = window.currentUser.repertoires[name].length;
+                div.innerHTML += `<div class="rep-header-card"><strong>${name.toUpperCase()}</strong><span>${songCount} ŞARKI</span></div>`;
+            }
+        };
+
+        window.createNewRepertoire = async () => {
+            const name = prompt("Liste adı?");
+            if(name && window.currentUser) {
+                const newReps = {...window.currentUser.repertoires, [name]: []};
+                await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps });
+                window.currentUser.repertoires = newReps; window.renderRepertoires();
+            }
+        };
+
+        window.closeSong = () => document.getElementById('songModal').style.display = 'none';
+        window.closeAuth = () => document.getElementById('authModal').style.display = 'none';
+        window.closeArchive = () => document.getElementById('archiveContent').style.display = 'none';
+        window.closeRepertoire = () => document.getElementById('repertoireSection').style.display = 'none';
+        window.resetTone = () => { window.currentLyrics = window.originalLyrics; window.updateUI(); };
 
         document.getElementById('songSearch').addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
-            renderSongs(allSongs.filter(s => s.title.toLowerCase().includes(term) || s.artist.toLowerCase().includes(term)));
+            window.renderSongs(window.allSongs.filter(s => s.title.toLowerCase().includes(term) || s.artist.toLowerCase().includes(term)));
         });
     </script>
 </body>
