@@ -56,12 +56,12 @@
         .card { padding: 30px; background: #111; border: 1px solid #222; text-align: center; border-radius: 4px; transition: 0.3s; cursor: pointer; position: relative; }
         .card:hover { border-color: #fff; transform: translateY(-5px); }
         
-        /* KART İÇİNDEKİ HIZLI EKLEME BUTONU */
+        /* HIZLI İŞLEM BUTONLARI */
         .quick-add { position: absolute; top: 10px; right: 10px; background: #0056b3; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; font-weight: bold; cursor: pointer; display: none; z-index: 10; }
-        .card:hover .quick-add { display: block; }
+        .quick-remove { position: absolute; top: 10px; right: 10px; background: #ff4444; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; font-weight: bold; cursor: pointer; display: none; z-index: 10; }
+        .card:hover .quick-add, .card:hover .quick-remove { display: block; }
 
         .rep-header-card { background: #111; border: 1px solid #333; padding: 20px; margin-bottom: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
-        .rep-actions { display: flex; gap: 10px; }
 
         /* --- GALERİ --- */
         .gallery { padding: 60px 5%; }
@@ -134,13 +134,16 @@
 
     <section id="akorlar" class="archive-section">
         <h2 style="letter-spacing: 3px; margin-bottom: 25px;">MÜZİK REPERTUVARI</h2>
+        
         <div id="selectionModeNotice" style="display:none; color:#0056b3; font-weight:bold; margin-bottom:15px; background:rgba(0,86,179,0.1); padding:10px; border-radius:5px;">
             Şu an <span id="activeRepNameDisplay"></span> listesine şarkı ekliyorsunuz. <button onclick="window.cancelSelectionMode()" style="background:none; border:1px solid #0056b3; color:#0056b3; cursor:pointer; font-size:10px; padding:2px 5px; margin-left:10px;">DURDUR</button>
         </div>
+
         <div class="btn-group">
             <button id="toggleArchive" onclick="window.openArchive()">ARŞİVİ GÖRÜNTÜLE</button>
             <button id="btnRep" onclick="window.openRepertoire()">REPERTUVARLARIM</button>
         </div>
+
         <div id="repertoireSection">
             <div style="display:flex; justify-content:center; gap:10px; margin-bottom:30px; flex-wrap:wrap;">
                 <button class="auth-btn" onclick="window.createNewRepertoire()">+ YENİ LİSTE OLUŞTUR</button>
@@ -148,6 +151,7 @@
             </div>
             <div id="repertoireLists" style="text-align:left; max-width:900px; margin: 0 auto;"></div>
         </div>
+
         <div id="archiveContent">
             <button class="auth-btn" style="margin-bottom:20px; border-color:#888" onclick="window.closeArchive()">✕ ARŞİVİ KAPAT</button><br>
             <input type="text" id="songSearch" placeholder="Şarkı veya sanatçı ara...">
@@ -228,7 +232,8 @@
         window.currentLyrics = "";
         window.currentUser = null;
         window.currentSongId = null;
-        window.selectedRepForAdding = null; // Aktif seçilen liste
+        window.selectedRepForAdding = null; // Şarkı toplama modu
+        window.activeViewRep = null; // Listeyi görüntüleme modu
 
         const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         const artists = ["Duman", "Mor ve Ötesi", "manga", "Yüksek Sadakat", "Gripin", "Onur Can Özcan", "Ogün Sanlısoy", "Sertab Erener", "Gökhan Türkmen", "Kıraç", "Redd", "Şebnem Ferah","Teoman","Barış Manço","Pinhani","Umut Kaya","Çilekeş","Levent Yüksel","Kargo","Manuş Baba"];
@@ -245,6 +250,7 @@
             }
         });
 
+        // AUTH İŞLEMLERİ
         window.showAuth = (type) => {
             document.getElementById('authModal').style.display = 'block';
             const submit = document.getElementById('authSubmit');
@@ -269,73 +275,18 @@
                 };
             }
         };
-
         window.logout = () => signOut(auth).then(() => location.reload());
 
+        // ŞARKI MODALI VE TRANSPOZE
         window.openSong = (id) => {
             const song = window.allSongs.find(s => s.id === id);
             window.currentSongId = id;
             window.originalLyrics = song.content || ""; window.currentLyrics = window.originalLyrics;
             document.getElementById('songHeader').innerHTML = `<h1>${song.title}</h1><h3>${song.artist}</h3>`;
             document.getElementById('noteGrid').innerHTML = notes.map((n, i) => `<button class="note-btn" onclick="window.jumpToTone(${i})">${n}</button>`).join('');
-            
-            if(window.currentUser) {
-                document.getElementById('addSongToRep').style.display = 'inline-block';
-            }
-            
+            if(window.currentUser) document.getElementById('addSongToRep').style.display = 'inline-block';
             window.updateUI();
             document.getElementById('songModal').style.display = 'block';
-        };
-
-        // HIZLI EKLEME MODUNU AÇAR
-        window.startAddingToRep = (repName) => {
-            window.selectedRepForAdding = repName;
-            document.getElementById('selectionModeNotice').style.display = 'block';
-            document.getElementById('activeRepNameDisplay').innerText = repName.toUpperCase();
-            window.openArchive();
-        };
-
-        window.cancelSelectionMode = () => {
-            window.selectedRepForAdding = null;
-            document.getElementById('selectionModeNotice').style.display = 'none';
-            window.renderSongs(window.allSongs);
-        };
-
-        // TEK TIKLA REPERTUARA EKLEME (Firestore Güncelleme)
-        window.quickAddToRep = async (e, songId) => {
-            e.stopPropagation();
-            if(!window.selectedRepForAdding || !window.currentUser) return;
-
-            const repName = window.selectedRepForAdding;
-            if(window.currentUser.repertoires[repName].includes(songId)) {
-                return alert("Bu şarkı listede zaten var.");
-            }
-
-            const newReps = {...window.currentUser.repertoires};
-            newReps[repName].push(songId);
-            
-            try {
-                await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps });
-                window.currentUser.repertoires = newReps;
-                alert("Eklendi!");
-            } catch(err) { alert("Hata oluştu."); }
-        };
-
-        window.addToRepertoirePopup = async () => {
-            const listNames = Object.keys(window.currentUser.repertoires);
-            if(listNames.length === 0) return alert("Önce bir liste oluştur kanka!");
-            
-            const selectedList = prompt("Hangi listeye eklensin? \nSeçenekler: " + listNames.join(", "));
-            if(selectedList && window.currentUser.repertoires[selectedList]) {
-                if(window.currentUser.repertoires[selectedList].includes(window.currentSongId)) {
-                    return alert("Bu şarkı zaten listede!");
-                }
-                const newReps = {...window.currentUser.repertoires};
-                newReps[selectedList].push(window.currentSongId);
-                await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps });
-                window.currentUser.repertoires = newReps;
-                alert("Şarkı eklendi!");
-            }
         };
 
         window.updateUI = () => {
@@ -362,6 +313,7 @@
             }
         };
 
+        // ARŞİV VE LİSTELEME
         window.openArchive = () => {
             document.getElementById('repertoireSection').style.display = 'none';
             document.getElementById('archiveContent').style.display = 'block';
@@ -376,22 +328,21 @@
         };
 
         window.renderSongs = (songs) => {
-            const quickAddBtn = window.selectedRepForAdding ? 'style="display:block;"' : '';
-            document.getElementById('songList').innerHTML = songs.map(song => `
-                <div class="card" onclick="window.openSong(${song.id})">
-                    <button class="quick-add" ${quickAddBtn} onclick="window.quickAddToRep(event, ${song.id})">+</button>
-                    <span>${song.artist}</span>
-                    <h3>${song.title}</h3>
-                </div>
-            `).join('');
+            document.getElementById('songList').innerHTML = songs.map(song => {
+                let actionBtn = '';
+                if (window.activeViewRep) {
+                    actionBtn = `<button class="quick-remove" onclick="window.removeFromRep(event, ${song.id}, '${window.activeViewRep}')">✕</button>`;
+                } else if (window.selectedRepForAdding) {
+                    const isAlreadyIn = window.currentUser.repertoires[window.selectedRepForAdding].includes(song.id);
+                    actionBtn = isAlreadyIn ? 
+                        `<button class="quick-remove" onclick="window.removeFromRep(event, ${song.id}, '${window.selectedRepForAdding}')">−</button>` : 
+                        `<button class="quick-add" style="display:block;" onclick="window.quickAddToRep(event, ${song.id})">+</button>`;
+                }
+                return `<div class="card" onclick="window.openSong(${song.id})">${actionBtn}<span>${song.artist}</span><h3>${song.title}</h3></div>`;
+            }).join('');
         };
 
-        window.filterByArtist = (artist, btn) => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            window.renderSongs((artist === 'Hepsi') ? window.allSongs : window.allSongs.filter(s => s.artist === artist));
-        };
-
+        // REPERTUAR YÖNETİMİ
         window.openRepertoire = () => {
             if(!window.currentUser) return alert("Giriş yapmalısın!");
             document.getElementById('archiveContent').style.display = 'none';
@@ -409,16 +360,50 @@
                         <strong>${name.toUpperCase()}</strong>
                         <div style="font-size:10px; color:#888;">${songIds.length} ŞARKI</div>
                     </div>
-                    <div class="rep-actions">
+                    <div style="display:flex; gap:10px;">
                         <button class="auth-btn" style="border-color:#0056b3; color:#0056b3" onclick="window.startAddingToRep('${name}')">ŞARKI EKLE (+)</button>
+                        <button class="auth-btn" style="border-color:#ff4444; color:#ff4444" onclick="window.deleteWholeRep('${name}')">SİL</button>
                     </div>
                 </div>`;
             }
         };
 
+        window.startAddingToRep = (repName) => {
+            window.selectedRepForAdding = repName; window.activeViewRep = null;
+            document.getElementById('selectionModeNotice').style.display = 'block';
+            document.getElementById('activeRepNameDisplay').innerText = repName.toUpperCase();
+            window.openArchive();
+        };
+
+        window.cancelSelectionMode = () => {
+            window.selectedRepForAdding = null;
+            document.getElementById('selectionModeNotice').style.display = 'none';
+            window.renderSongs(window.allSongs);
+        };
+
+        window.quickAddToRep = async (e, songId) => {
+            e.stopPropagation();
+            const repName = window.selectedRepForAdding;
+            const newReps = {...window.currentUser.repertoires};
+            newReps[repName].push(songId);
+            await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps });
+            window.currentUser.repertoires = newReps; window.renderSongs(window.allSongs);
+        };
+
+        window.removeFromRep = async (e, songId, repName) => {
+            e.stopPropagation();
+            if(!confirm("Şarkı listeden çıkarılsın mı?")) return;
+            const newReps = {...window.currentUser.repertoires};
+            newReps[repName] = newReps[repName].filter(id => id !== songId);
+            await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps });
+            window.currentUser.repertoires = newReps;
+            window.activeViewRep ? window.viewRepertoireSongs(repName) : window.renderSongs(window.allSongs);
+        };
+
         window.viewRepertoireSongs = (name) => {
-            const songIds = window.currentUser.repertoires[name];
-            const songs = window.allSongs.filter(s => songIds.includes(s.id));
+            window.activeViewRep = name; window.selectedRepForAdding = null;
+            document.getElementById('selectionModeNotice').style.display = 'none';
+            const songs = window.allSongs.filter(s => window.currentUser.repertoires[name].includes(s.id));
             document.getElementById('repertoireSection').style.display = 'none';
             document.getElementById('archiveContent').style.display = 'block';
             window.renderSongs(songs);
@@ -433,14 +418,25 @@
             }
         };
 
-        window.closeSong = () => {
-            document.getElementById('songModal').style.display = 'none';
-            document.getElementById('addSongToRep').style.display = 'none';
-        }
+        window.deleteWholeRep = async (name) => {
+            if(!confirm("Tüm listeyi silmek istediğine emin misin?")) return;
+            const newReps = {...window.currentUser.repertoires};
+            delete newReps[name];
+            await updateDoc(doc(db, "users", window.currentUser.uid), { repertoires: newReps });
+            window.currentUser.repertoires = newReps; window.renderRepertoires();
+        };
+
+        // YARDIMCI FONKSİYONLAR
+        window.closeSong = () => document.getElementById('songModal').style.display = 'none';
         window.closeAuth = () => document.getElementById('authModal').style.display = 'none';
-        window.closeArchive = () => document.getElementById('archiveContent').style.display = 'none';
+        window.closeArchive = () => { window.activeViewRep = null; document.getElementById('archiveContent').style.display = 'none'; };
         window.closeRepertoire = () => document.getElementById('repertoireSection').style.display = 'none';
         window.resetTone = () => { window.currentLyrics = window.originalLyrics; window.updateUI(); };
+        window.filterByArtist = (artist, btn) => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            window.renderSongs((artist === 'Hepsi') ? window.allSongs : window.allSongs.filter(s => s.artist === artist));
+        };
 
         document.getElementById('songSearch').addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
