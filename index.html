@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beyaz Leke Stüdyo | Akor & Arşiv</title>
     <style>
+        
         /* --- GENEL TASARIM (KEMİK KOD) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: #0a0a0a; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
@@ -38,7 +39,17 @@
         .beste-content p { color: #aaa; margin-bottom: 25px; font-size: 1.1rem; }
         .yt-link { display: inline-block; color: #fff; text-decoration: none; font-weight: bold; border: 1px solid #fff; padding: 10px 25px; transition: 0.3s; font-size: 11px; letter-spacing: 1px; }
         .yt-link:hover { background: #fff; color: #000; }
+/* --- YENİ SAHNE ÖZELLİKLERİ STİLLERİ --- */
+.dark-mode { background-color: #0a0a0a !important; color: #ffffff !important; }
+.dark-mode .modal-content { background-color: #1a1a1a !important; color: #fff !important; border: 1px solid #333; }
+.dark-mode pre { color: #00ff00 !important; } /* Sahne için akorları yeşil yaptık */
 
+#modalBody pre { transition: font-size 0.2s; line-height: 1.6; }
+
+.extra-controls {
+    display: flex; gap: 8px; justify-content: center; 
+    margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;
+}
         /* --- TEORİ PANELİ STİLLERİ --- */
         #scaleSection { display: none; padding: 50px 5%; background: #fdfdfd; border-bottom: 1px solid #ddd; text-align: center; position: relative; color: #333; z-index: 100; }
         .scale-note-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; }
@@ -209,6 +220,12 @@
             <div id="songHeader"></div>
             <div class="transpose-bar" id="modalControls">
                 <div id="noteGrid"></div>
+                <div class="extra-controls">
+        <button class="note-btn" style="width:40px" onclick="window.changeFontSize(-2)">A-</button>
+        <button class="note-btn" style="width:40px" onclick="window.changeFontSize(2)">A+</button>
+        <button id="scrollBtn" class="note-btn" style="flex:1" onclick="window.toggleAutoScroll()">▶ KAYDIR</button>
+        <button class="note-btn" style="width:50px" onclick="window.toggleDarkMode()">🌓</button>
+    </div>
                 <div style="display:flex; gap:10px;">
                     <button class="note-btn" onclick="window.transposeSteps(-1)">- ½</button>
                     <button class="note-btn" onclick="window.transposeSteps(1)">+ ½</button>
@@ -684,7 +701,43 @@ let currentSteps = 0;
         window.closeArchive = () => document.getElementById('archiveContent').style.display = 'none';
         window.closeRepertoire = () => document.getElementById('repertoireSection').style.display = 'none';
         window.closeAuth = () => document.getElementById('authModal').style.display = 'none';
+// --- YENİ SAHNE FONKSİYONLARI ---
+        window.scrollInterval = null;
+        window.currentFontSize = 18;
+        window.isScrolling = false;
 
+        // 1. Yazı Boyutu Ayarı
+        window.changeFontSize = (delta) => {
+            window.currentFontSize += delta;
+            if(window.currentFontSize < 10) window.currentFontSize = 10;
+            const pre = document.querySelector('#modalBody pre');
+            if(pre) pre.style.fontSize = window.currentFontSize + 'px';
+        };
+
+        // 2. Otomatik Kaydırma
+        window.toggleAutoScroll = () => {
+            const modal = document.getElementById('songModal');
+            const btn = document.getElementById('scrollBtn');
+            
+            if (window.isScrolling) {
+                clearInterval(window.scrollInterval);
+                btn.innerText = "▶ KAYDIR";
+                btn.style.background = ""; 
+                window.isScrolling = false;
+            } else {
+                window.isScrolling = true;
+                btn.innerText = "|| DURDUR";
+                btn.style.background = "#e74c3c"; 
+                window.scrollInterval = setInterval(() => {
+                    modal.scrollBy(0, 1); 
+                }, 50); 
+            }
+        };
+
+        // 3. Gece Modu
+        window.toggleDarkMode = () => {
+            document.body.classList.toggle('dark-mode');
+        };
     </script>
 </body>
 </html>
