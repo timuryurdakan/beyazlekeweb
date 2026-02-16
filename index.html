@@ -223,6 +223,9 @@
                 <div class="extra-controls">
         <button class="note-btn" style="width:40px" onclick="window.changeFontSize(-2)">A-</button>
         <button class="note-btn" style="width:40px" onclick="window.changeFontSize(2)">A+</button>
+        
+        <input type="range" id="scrollSpeed" min="10" max="150" value="50" style="width:70px; margin: 0 5px; accent-color: #e74c3c; cursor: pointer;">
+        
         <button id="scrollBtn" class="note-btn" style="flex:1" onclick="window.toggleAutoScroll()">▶ KAYDIR</button>
         <button class="note-btn" style="width:50px" onclick="window.toggleDarkMode()">🌓</button>
     </div>
@@ -714,25 +717,27 @@ let currentSteps = 0;
             if(pre) pre.style.fontSize = window.currentFontSize + 'px';
         };
 
-        // 2. Otomatik Kaydırma
         window.toggleAutoScroll = () => {
-            const modal = document.getElementById('songModal');
-            const btn = document.getElementById('scrollBtn');
-            
-            if (window.isScrolling) {
-                clearInterval(window.scrollInterval);
-                btn.innerText = "▶ KAYDIR";
-                btn.style.background = ""; 
-                window.isScrolling = false;
-            } else {
-                window.isScrolling = true;
-                btn.innerText = "|| DURDUR";
-                btn.style.background = "#e74c3c"; 
-                window.scrollInterval = setInterval(() => {
-                    modal.scrollBy(0, 1); 
-                }, 50); 
-            }
-        };
+    const modal = document.getElementById('songModal');
+    const btn = document.getElementById('scrollBtn');
+    const speedInput = document.getElementById('scrollSpeed'); // Barı yakaladık
+    
+    if (window.isScrolling) {
+        clearInterval(window.scrollInterval);
+        btn.innerText = "▶ KAYDIR";
+        btn.style.background = ""; 
+        window.isScrolling = false;
+    } else {
+        window.isScrolling = true;
+        btn.innerText = "|| DURDUR";
+        btn.style.background = "#e74c3c"; 
+
+        // speedInput.value ne kadar büyükse o kadar yavaş akar
+        window.scrollInterval = setInterval(() => {
+            modal.scrollBy(0, 1); 
+        }, speedInput.value); 
+    }
+};
 
         // 3. Gece Modu
         window.toggleDarkMode = () => {
