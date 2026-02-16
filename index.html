@@ -556,14 +556,116 @@ window.viewRepSongs = async (repId) => {
             window.selectedRepId = null;
             document.getElementById('selectionModeNotice').style.display = 'none';
         };
+let currentSteps = 0;
+        let originalContent = "";
 
         window.openSong = (id) => {
             const song = window.allSongs.find(s => String(s.id) === String(id));
             if(!song) return;
-            document.getElementById('songHeader').innerHTML = `<h2>${song.title}</h2><p>${song.artist}</p>`;
-            document.getElementById('modalBody').innerHTML = `<pre>${song.content || 'Akor yok.'}</pre>`;
+            
+            originalContent = song.content || 'Akor yok.';
+            currentSteps = 0;
+            
             document.getElementById('songModal').style.display = 'block';
+            window.renderTransposedUI(song.title, song.artist);
+            window.renderNoteBar();
         };
+// 1. Nota butonlarını modal içine dizecek fonksiyon
+        window.renderNoteBar = () => {
+            const noteGrid = document.getElementById('noteGrid');
+            if(!noteGrid) return;
+            
+            const allNotes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+            
+            noteGrid.innerHTML = allNotes.map(n => `
+                <button class="note-btn" onclick="window.transposeToNote('${n}')">${n}</button>
+            `).join('');
+        };
+
+        // 2. Tıklanan notaya göre transpoze miktarını hesaplayan fonksiyon
+        window.transposeToNote = (targetNote) => {
+            const scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+            const flats = {"Db":"C#", "Eb":"D#", "Gb":"F#", "Ab":"G#", "Bb":"A#"};
+
+            // Şarkıdaki ilk akoru bulup onun kök notasını alıyoruz (Örn: Em -> E)
+            const firstChordMatch = originalContent.match(/[A-G][#b]?/);
+            if(!firstChordMatch) return;
+            
+            let originalNote = firstChordMatch[0];
+            originalNote = flats[originalNote] || originalNote;
+            
+            const startIdx = scale.indexOf(originalNote);
+            const targetIdx = scale.indexOf(targetNote);
+            
+            if (startIdx !== -1 && targetIdx !== -1) {
+                // Hedef nota ile orijinal nota arasındaki farkı bulup set ediyoruz
+                currentSteps = targetIdx - startIdx;
+                const title = document.querySelector('#songHeader h2').innerText;
+                const artist = document.querySelector('#songHeader p').innerText;
+                window.renderTransposedUI(title, artist);
+            }
+        };
+        window.transposeChord = (chord, steps) => {
+            const scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+            
+            return chord.replace(/[A-G][#b]?/g, (note) => {
+                const flats = {"Db":"C#", "Eb":"D#", "Gb":"F#", "Ab":"G#", "Bb":"A#"};
+                let n = flats[note] || note;
+                
+                let idx = scale.indexOf(n);
+                if (idx === -1) return note;
+                
+                // Modülo (12) kullanarak döngüyü sağlıyoruz, ## hatasını bitiriyoruz
+                let newIdx = (idx + steps + 120) % 12;
+                return scale[newIdx];
+            });
+        };
+        window.renderTransposedUI = (title, artist) => {
+            document.getElementById('songHeader').innerHTML = `<h2>${title}</h2><p>${artist}</p>`;
+            const transposed = window.transposeText(originalContent, currentSteps);
+            document.getElementById('modalBody').innerHTML = `<pre>${transposed}</pre>`;
+        };
+
+        window.transposeSteps = (n) => {
+            currentSteps += n;
+            const title = document.querySelector('#songHeader h2').innerText;
+            const artist = document.querySelector('#songHeader p').innerText;
+            window.renderTransposedUI(title, artist);
+        };
+
+        window.resetTone = () => {
+            currentSteps = 0;
+            const title = document.querySelector('#songHeader h2').innerText;
+            const artist = document.querySelector('#songHeader p').innerText;
+            window.renderTransposedUI(title, artist);
+        };
+
+        window.transposeText = (text, steps) => {
+            if (steps === 0) return text;
+
+            // AKOR AVCISI REGEX: Kelimelerle karışmaması için başına ve sonuna sınır (boundary) koyduk
+            // Bu regex: A, Bb, C#m7, Dmaj7, Esus4 gibi yapıları yakalar.
+            const chordRegex = /\b([A-G][#b]?(m|maj|dim|aug|sus)?\d*)\b/g;
+
+            return text.replace(chordRegex, (match) => {
+                // Yakalanan her akoru transpoze fonksiyonuna gönderiyoruz
+                return window.transposeChord(match, steps);
+            });
+        };
+
+        window.transposeChord = (chord, steps) => {
+            const scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+            
+            // Akorun sadece nota kısmını (C#, Eb vb.) değiştir, sonrasını (m7, sus4) koru
+            return chord.replace(/[A-G][#b]?/g, (note) => {
+                const flats = {"Db":"C#", "Eb":"D#", "Gb":"F#", "Ab":"G#", "Bb":"A#"};
+                let n = flats[note] || note;
+                let idx = scale.indexOf(n);
+                if (idx === -1) return note;
+                return scale[(idx + steps + 120) % 12];
+            });
+        };
+       
 
         window.searchSongs = () => {
             const term = document.getElementById('songSearch').value.toLowerCase();
